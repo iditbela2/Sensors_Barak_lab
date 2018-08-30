@@ -1,81 +1,81 @@
 
-import matplotlib.pyplot as plt
+# im missing ismember, accumarray, cellfunc
+
 import datetime
 import os
 import numpy as np
 import time
 import dropbox
-
-# Make sure data was manually downloaded
-
-# the name of the file should represent the time at the end of the measurement, so use linespace with
-# the number of values to add x-time array
-
-sensor_no = 1
-start_date = datetime.datetime(2018,8,1,0,0,0)
-end_date = datetime.datetime(2018,8,2,0,0,0)
-duration = 5 # measurement duration
-dataPath = '/Users/iditbela/Documents/Sensors_Barak_lab/downloaded_data/'
-
+import pandas as pd
 
 # find the log files that match the chosen dates and create data array of time intervals
 # and measurements. each measurement represents one minute so the time of the log-file is the end of
-# measurement and I go the number of required minutes back
+# measurement and I get the number of required minutes back
 
-def getData(sensor, start, end):
-    file_names = np.array(os.listdir(dataPath+str(sensor)))
+def getData(path,sensor, start, end):
+    file_names = np.array(os.listdir(path+str(sensor)))
+    # extract times from file names
     times_str = np.array([ind[4:] for ind in file_names])
     fmt = "%Y-%m-%d %H:%M:%S"
+    # convert to datetime
     times_datetime = np.array([datetime.datetime.strptime(times_str[x], fmt) for x in range(len(times_str))])
-    chosen_datetimes = times_datetime[(times_datetime >= start_date) & (times_datetime <= end_date)]
-    chosen_logs =
-
-
-
-
-
-
-
-
-
-    import time, glob
-
-    outfilename = 'all_' + str((int(time.time()))) + ".txt"
-
-    filenames = glob.glob('*.txt')
-
-    with open(outfilename, 'wb') as outfile:
-        for fname in filenames:
-            with open(fname, 'r') as readfile:
-                infile = readfile.read()
-                for line in infile:
-                    outfile.write(line)
-                outfile.write("\n\n")
-
-
-
-
-    path = r'C:\Users\Data1\\'
+    # choose the times between start and end
+    times_chosen = times_datetime[(times_datetime >= start) & (times_datetime <= end)]
+    # choose the relevant logs
+    times_log = np.array(['log_'+x.strftime(fmt) for x in times_chosen])
+    # extract all data from chosen logs
+    all_data = []
+    for ind in range(len(times_log)):
+        with open(path+str(sensor)+'/'+times_log[ind]) as f:
+            fdata = f.read().splitlines()
+            all_data.append(fdata)
+    # reorganize the data to numpy array, depending on the shape of the datafile
+    num_splits = len([word for word in all_data[0] if word.startswith('--END OF')])
+    shape_data = np.shape(all_data)
+    times_size = int((shape_data[1] - num_splits) / num_splits)
+    # create an array of measurement times
     times = []
-    yvals = []
-    for data_file in sorted(os.listdir(path)):
-        with open(data_file, 'r') as f:
-            for line in f.readlines()[11:21]:  # read lines from 11 to 21
-                column = line.split('\t')
-                times.append(column[0])
-                yvals.append(column[1])
+    for t in times_chosen:
+        for i in range(times_size,0,-1):
+            times.append(t - datetime.timedelta(hours=0, minutes=i))
+
+# I SHOULD UNDERSTAND HOW THE DATA IS WRITTEN IN THE FILES....MAYBE THE LOOP IS BACKWARDS
+
+    # create an array of data
+    data = np.zeros([times_size*shape_data[0],num_splits])
+    temp = np.transpose(all_data)
+    for i in range(num_splits):
+        ind = np.where(temp == "--END OF " + str(i + 1) + "--")[0][0]
+        data[:,i] = np.reshape(temp[ind-times_size:ind, :], (times_size*shape_data[0],))
+
+            # # run over the file and split where I have "END OF"
+            # for i in num_splits
+            #     ind = data.index("--END OF "+str(i)+"--")
+            #     all_data[:ind,.append(data)
+
+    # return an array of times and an array of data measurements
+    return np.array(times), data
 
 
+#getDataForAMacAdress()
 
 
-# convert all name of files to time and then concat to one file / build an array based on start and end
+# Make sure data was manually downloaded
+sensor_no = 1
+start_date = datetime.datetime(2018,8,1,0,0,0)
+end_date = datetime.datetime(2018,8,2,0,0,0)
+duration = 5 # measurement duration. maybe I don't need
+dataPath = '/Users/iditbela/Documents/Sensors_Barak_lab/downloaded_data/'
+
+# extract data
+times, data = getData(dataPath,1,start_date,end_date)
+
+# plot signal
+import matplotlib.pyplot as plt
 
 
-
-
-
-
-
+plt.plot(times, data)
+plt.show()
 
 
 
