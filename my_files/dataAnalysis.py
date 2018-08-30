@@ -1,5 +1,5 @@
 
-# im missing ismember, accumarray, cellfunc
+# im miss ismember, accumarray, cellfunc :)
 
 import datetime
 import os
@@ -7,22 +7,44 @@ import numpy as np
 import time
 import dropbox
 import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.dates as md
 
 # find the log files that match the chosen dates and create data array of time intervals
 # and measurements. each measurement represents one minute so the time of the log-file is the end of
 # measurement and I get the number of required minutes back
 
-def getData(path,sensor, start, end):
-    file_names = np.array(os.listdir(path+str(sensor)))
-    # extract times from file names
-    times_str = np.array([ind[4:] for ind in file_names])
+# get an array of the log times chosen (times_chosen = datetime, times_log=strings of that time)
+def getTimes(path,sensor, start, end, log): # log=data for PM data or log=wifi for macAdress data
     fmt = "%Y-%m-%d %H:%M:%S"
-    # convert to datetime
-    times_datetime = np.array([datetime.datetime.strptime(times_str[x], fmt) for x in range(len(times_str))])
-    # choose the times between start and end
-    times_chosen = times_datetime[(times_datetime >= start) & (times_datetime <= end)]
-    # choose the relevant logs
-    times_log = np.array(['log_'+x.strftime(fmt) for x in times_chosen])
+    if log=='data':
+        logPath = path+str(sensor)
+        file_names = np.array(os.listdir(logPath))
+        # extract times from file names
+        times_str = np.array([ind[4:] for ind in file_names])
+        # convert to datetime
+        times_datetime = np.array([datetime.datetime.strptime(times_str[x], fmt) for x in range(len(times_str))])
+        # choose the times between start and end
+        times_chosen = times_datetime[(times_datetime >= start) & (times_datetime <= end)]
+        # choose the relevant logs
+        times_log = np.array(['log_' + x.strftime(fmt) for x in times_chosen])
+    elif log=='wifi':
+        logPath = path+'wifi'+str(sensor)
+        file_names = np.array(os.listdir(logPath))
+        # extract times from file names
+        times_str = np.array([ind[5:] for ind in file_names])
+        # convert to datetime
+        times_datetime = np.array([datetime.datetime.strptime(times_str[x], fmt) for x in range(len(times_str))])
+        # choose the times between start and end
+        times_chosen = times_datetime[(times_datetime >= start) & (times_datetime <= end)]
+        # choose the relevant logs
+        times_log = np.array(['wifi_' + x.strftime(fmt) for x in times_chosen])
+    else:
+        raise ValueError("log must be 'data' or 'wifi'" )
+    return times_chosen, times_log
+
+def getData(path,sensor, start, end):
+    times_chosen, times_log = getTimes(path,sensor, start, end, log = 'data')
     # extract all data from chosen logs
     all_data = []
     for ind in range(len(times_log)):
@@ -38,26 +60,26 @@ def getData(path,sensor, start, end):
     for t in times_chosen:
         for i in range(times_size,0,-1):
             times.append(t - datetime.timedelta(hours=0, minutes=i))
-
 # I SHOULD UNDERSTAND HOW THE DATA IS WRITTEN IN THE FILES....MAYBE THE LOOP IS BACKWARDS
-
     # create an array of data
     data = np.zeros([times_size*shape_data[0],num_splits])
     temp = np.transpose(all_data)
     for i in range(num_splits):
         ind = np.where(temp == "--END OF " + str(i + 1) + "--")[0][0]
         data[:,i] = np.reshape(temp[ind-times_size:ind, :], (times_size*shape_data[0],))
-
-            # # run over the file and split where I have "END OF"
-            # for i in num_splits
-            #     ind = data.index("--END OF "+str(i)+"--")
-            #     all_data[:ind,.append(data)
-
     # return an array of times and an array of data measurements
     return np.array(times), data
 
+# getMacAddresses returns a matrix of times and mac addresses.
+# Since several addresses exist per one time of log, I should have multiple
+# identical time values (one for each mac address).
+# time of log is taken (representing time between log_time-duration and log_time)
+def getMacAddresses(path,sensor, start, end):
+    times_chosen, times_log = getTimes(path, sensor, start, end, log='wifi')
+    # extract all mac addresses from chosen logs
+    
 
-#getDataForAMacAdress()
+
 
 
 # Make sure data was manually downloaded
@@ -71,11 +93,32 @@ dataPath = '/Users/iditbela/Documents/Sensors_Barak_lab/downloaded_data/'
 times, data = getData(dataPath,1,start_date,end_date)
 
 # plot signal
-import matplotlib.pyplot as plt
+fmt = "%Y-%m-%d %H:%M:%S"
+fig, ax = plt.subplots()
+ax.plot(times, data[:,0])
+ax.plot(times,data[:,1])
+ax.xaxis.set_major_formatter(md.DateFormatter("%Y-%m-%d"))
+ax.legend(('PM 2.5','PM 10'),loc='upper right')
+plt.title('PM concentration measured by\n sensor '+str(sensor_no)+' between\n '+times[0].strftime(fmt)+' and '+times[len(times)-1].strftime(fmt))
+plt.ylabel('micro-grams/m^3')
+# Tell matplotlib to interpret the x-axis values as dates
+#ax.xaxis_date()
+# Make space for and rotate the x-axis tick labels
+fig.autofmt_xdate()
 
-
-plt.plot(times, data)
 plt.show()
+#plt.savefig('plot.pdf')
+
+
+
+
+
+
+
+
+
+
+
 
 
 

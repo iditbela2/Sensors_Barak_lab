@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="acc72597-c989-4a4b-a051-83f4368cfbe9" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Sensors_Barak_lab.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Sensors_Barak_lab.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my_files/dataAnalysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/my_files/dataAnalysis.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,16 +16,34 @@
       <file leaf-file-name="dataAnalysis.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/my_files/dataAnalysis.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="76" selection-start-line="76" selection-end-line="77" selection-end-column="10" />
+            <state relative-caret-position="329">
+              <caret line="79" column="4" lean-forward="true" selection-start-line="79" selection-start-column="4" selection-end-line="79" selection-end-column="4" />
               <folding>
-                <element signature="e#47#62#0" expanded="true" />
+                <element signature="e#46#61#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="wifi1main.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Original_codes_Zoey/SDS021/wifi1main.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1076">
+              <caret line="88" column="27" selection-start-line="88" selection-start-column="27" selection-end-line="88" selection-end-column="27" />
+              <folding>
+                <element signature="e#228#245#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>times_chosen</find>
+      <find>fmt</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -47,7 +64,7 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds">
     <option name="y" value="23" />
     <option name="width" value="1440" />
     <option name="height" value="873" />
@@ -68,7 +85,13 @@
             <path>
               <item name="Sensors_Barak_lab" type="b2602c69:ProjectViewProjectNode" />
               <item name="Sensors_Barak_lab" type="462c0819:PsiDirectoryNode" />
-              <item name="my_files" type="462c0819:PsiDirectoryNode" />
+              <item name="Original_codes_Zoey" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Sensors_Barak_lab" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Sensors_Barak_lab" type="462c0819:PsiDirectoryNode" />
+              <item name="Original_codes_Zoey" type="462c0819:PsiDirectoryNode" />
+              <item name="SDS021" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -131,19 +154,20 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="873" extended-state="6" />
+    <frame x="0" y="23" width="1440" height="873" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Python Console" visible="true" weight="0.34438777" />
+      <window_info anchor="bottom" id="Python Console" visible="true" weight="0.3405612" />
       <window_info anchor="bottom" id="Terminal" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13402778" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.10486111" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="right" id="Database" />
-      <window_info active="true" anchor="right" id="SciView" sideWeight="0.5039578" visible="true" weight="0.5590278" />
+      <window_info active="true" anchor="right" id="SciView" sideWeight="0.5039578" visible="true" weight="0.32569444" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" side_tool="true" />
@@ -164,12 +188,22 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Original_codes_Zoey/SDS021/wifi1main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1076">
+          <caret line="88" column="27" selection-start-line="88" selection-start-column="27" selection-end-line="88" selection-end-column="27" />
+          <folding>
+            <element signature="e#228#245#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/my_files/dataAnalysis.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="76" selection-start-line="76" selection-end-line="77" selection-end-column="10" />
+        <state relative-caret-position="329">
+          <caret line="79" column="4" lean-forward="true" selection-start-line="79" selection-start-column="4" selection-end-line="79" selection-end-column="4" />
           <folding>
-            <element signature="e#47#62#0" expanded="true" />
+            <element signature="e#46#61#0" expanded="true" />
           </folding>
         </state>
       </provider>
