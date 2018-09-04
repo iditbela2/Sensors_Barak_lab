@@ -108,7 +108,7 @@ def getSignalPerMacAddress()
 
     # take only data per specific mac address
 
-    
+
 
 
 #------ plot some results ------

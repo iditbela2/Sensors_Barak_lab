@@ -24,7 +24,7 @@ DEBUG = True #True to also create a debug file
 #hardware id
 SELECTED_HARDWARE = 1 #1 for SDS021, 2 for PMS5003, 3 for SDS011
 
-def doMeasurement(duration, debug):
+def doMeasurement(duration):
 
     """function:
         This function calls one of the three sensor
@@ -38,38 +38,39 @@ def doMeasurement(duration, debug):
     """
 
     #open a log file for current time
-    file_name = str(datetime.datetime.now()).split(".")[0]
-    # NOTE - the debug files will have a different name than the log files
+    #file_name = str(datetime.datetime.now()).split(".")[0]
+    # NOTE(Idit) - seems like the debug files will have a different name than the log files
+    # I removed the file_name initialization and the name of the debug file will be determined
+    # in the read function in sensorSDS021.SDS021Reader
 
     #measurements
     if SELECTED_HARDWARE == 1:
         USBPORT  = "/dev/ttyUSB0"
-        results = sensorSDS021.SDS021Reader(USBPORT).read(duration, file_name, debug)
+        results = sensorSDS021.SDS021Reader(USBPORT).read(duration)
     elif SELECTED_HARDWARE == 2:
         USBPORT  = "/dev/ttyS0"
-        results = sensorPMS5003.PMS5003Reader(USBPORT).read(duration, file_name, debug)
+        results = sensorPMS5003.PMS5003Reader(USBPORT).read(duration)
     elif SELECTED_HARDWARE == 3:
         USBPORT  = "/dev/ttyUSB0"
-        results = sensorSDS011.SDS011Reader(USBPORT).read(duration, file_name, debug)
+        results = sensorSDS011.SDS011Reader(USBPORT).read(duration)
         
     file_name = str(datetime.datetime.now()).split(".")[0]
     file_name = "log_" + file_name
     f = open(file_name,"w")
 
-    #if nothing is measured
-    if len(results) == 0:
-        f.write("-1\n")
-    
-    #append results at the end of the log file
-    else:
-        for i in range(len(results[0])):#index for pm#
-            for j in range(len(results)):#index for min#
-                f.write(str(results[j][i]) + "\n")
-            f.write("--END OF "+str(i+1)+"--\n")
+    # #if nothing is measured #NOT SURE HOW TO CHECK IF EMPTY
+    # if len(results) == 0:
+    #     f.write("-1\n")
+    #
+    # #append results at the end of the log file
+    # else:
+    for i in range(len(results[0])):#index for pm#
+        for j in range(len(results)):#index for min#
+            f.write(str(results[j][i]) + "\n")
+        f.write("--END OF "+str(i+1)+"--\n")
     f.close()
 
 def checkInternetConnection():
-    
     """function:
         This function checks if there is an internet connection
         to the wifi and uploading is possible. It returns True if yes.
