@@ -39,6 +39,7 @@ def doMeasurement(duration, debug):
 
     #open a log file for current time
     file_name = str(datetime.datetime.now()).split(".")[0]
+    # NOTE - the debug files will have a different name than the log files
 
     #measurements
     if SELECTED_HARDWARE == 1:

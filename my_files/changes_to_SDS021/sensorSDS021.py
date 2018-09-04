@@ -55,7 +55,7 @@ class SDS021Reader:
                 
                 #start DATA bit acquisition
                 elif step >= 2:
-                    if v == 170: #on 4th measurement 170, 192 repeats
+                    if v == 170: #on 4th measurement 170, 192 repeats #NOT CLEAR
                         step = 1
                         continue
                     values[step-2] = v 

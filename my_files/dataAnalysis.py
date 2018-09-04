@@ -9,6 +9,8 @@ import dropbox
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.dates as md
+import operator
+from functools import reduce
 
 # find the log files that match the chosen dates and create data array of time intervals
 # and measurements. each measurement represents one minute so the time of the log-file is the end of
@@ -43,7 +45,7 @@ def getTimes(path,sensor, start, end, log): # log=data for PM data or log=wifi f
         raise ValueError("log must be 'data' or 'wifi'" )
     return times_chosen, times_log
 
-def getData(path,sensor, start, end):
+def getSignalData(path, sensor, start, end):
     times_chosen, times_log = getTimes(path,sensor, start, end, log = 'data')
     # extract all data from chosen logs
     all_data = []
@@ -77,10 +79,39 @@ def getData(path,sensor, start, end):
 def getMacAddresses(path,sensor, start, end):
     times_chosen, times_log = getTimes(path, sensor, start, end, log='wifi')
     # extract all mac addresses from chosen logs
+    all_mac_data = []
+    for ind in range(len(times_log)):
+        with open(path+'wifi'+str(sensor)+'/'+times_log[ind]) as f:
+            fdata = f.read().splitlines()
+            all_mac_data.append(fdata[:-1]) # remove the "---END OF..."
+    # create an array of times in the size of time_size X all_mac_data[i]
+    times_size = np.shape(all_mac_data)[0] #size according to number of logs
+    len_mac = [] #array of len of mac addresses in each log
+    for d in all_mac_data:
+        len_mac.append(len(d))
+    # create an array of measurement times minus 5 minutes.
+    # that way the time represents the beginning
+    # of the measurement and not the end
+    times = [] #HOW DO I DO IT NOT IN A LOOP?
+    for i in range(times_size):
+        for j in range(len_mac[i]):
+            times.append(times_chosen[i] - datetime.timedelta(hours=0, minutes=5))
+    # create an array of data the same size
+    data = np.array(reduce(operator.concat, all_mac_data))
+    # return an array of times and an array of data measurements
+    return np.array(times), data
+
+# find all times a specific mac address was measured. then,
+# get signal for those times
+def getSignalPerMacAddress()
+    # call getMacAddresses
+
+    # take only data per specific mac address
+
     
 
 
-
+#------ plot some results ------
 
 # Make sure data was manually downloaded
 sensor_no = 1
@@ -89,8 +120,9 @@ end_date = datetime.datetime(2018,8,2,0,0,0)
 duration = 5 # measurement duration. maybe I don't need
 dataPath = '/Users/iditbela/Documents/Sensors_Barak_lab/downloaded_data/'
 
-# extract data
-times, data = getData(dataPath,1,start_date,end_date)
+
+# extract data to plot a simple signal
+times, data = getSignalData(dataPath, 1, start_date, end_date)
 
 # plot signal
 fmt = "%Y-%m-%d %H:%M:%S"
@@ -110,6 +142,7 @@ plt.show()
 #plt.savefig('plot.pdf')
 
 
+# extract data to plot per mac address
 
 
 
