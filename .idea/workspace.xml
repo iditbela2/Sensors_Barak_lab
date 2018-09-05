@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="acc72597-c989-4a4b-a051-83f4368cfbe9" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/my_files/changes_to_SDS021/sensor1main.py" beforeDir="false" afterPath="$PROJECT_DIR$/my_files/changes_to_SDS021/sensor1main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_files/changes_to_SDS021/sensorSDS021.py" beforeDir="false" afterPath="$PROJECT_DIR$/my_files/changes_to_SDS021/sensorSDS021.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my_files/dataAnalysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/my_files/dataAnalysis.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -18,8 +16,8 @@
       <file leaf-file-name="dataAnalysis.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/my_files/dataAnalysis.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="149">
-              <caret line="65" column="29" lean-forward="true" selection-start-line="65" selection-start-column="29" selection-end-line="65" selection-end-column="29" />
+            <state relative-caret-position="241">
+              <caret line="106" column="26" selection-start-line="106" selection-start-column="4" selection-end-line="106" selection-end-column="26" />
               <folding>
                 <element signature="e#46#61#0" expanded="true" />
               </folding>
@@ -27,11 +25,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sensor1main.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="sensor1main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/my_files/changes_to_SDS021/sensor1main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="21" column="46" lean-forward="true" selection-start-line="21" selection-start-column="46" selection-end-line="21" selection-end-column="46" />
+            <state relative-caret-position="221">
+              <caret line="15" column="26" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
               <folding>
                 <element signature="e#144#161#0" expanded="true" />
               </folding>
@@ -39,11 +37,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sensorSDS021.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="sensorSDS021.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/my_files/changes_to_SDS021/sensorSDS021.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="298">
-              <caret line="58" column="21" lean-forward="true" selection-start-line="58" selection-start-column="21" selection-end-line="58" selection-end-column="21" />
+            <state relative-caret-position="428">
+              <caret line="45" column="20" lean-forward="true" selection-start-line="45" selection-start-column="20" selection-end-line="45" selection-end-column="20" />
               <folding>
                 <element signature="e#145#154#0" expanded="true" />
               </folding>
@@ -53,7 +51,14 @@
       </file>
       <file leaf-file-name="wifi1main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/my_files/changes_to_SDS021/wifi1main.py">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="309">
+              <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
+              <folding>
+                <element signature="e#228#245#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
         </entry>
       </file>
     </leaf>
@@ -74,6 +79,8 @@
       <find>filename</find>
       <find>file_name</find>
       <find>zeros</find>
+      <find>persistent</find>
+      <find>str</find>
       <find>debug</find>
     </findStrings>
   </component>
@@ -84,9 +91,9 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Original_codes_Zoey/SDS021/wifi1main.py" />
-        <option value="$PROJECT_DIR$/my_files/dataAnalysis.py" />
         <option value="$PROJECT_DIR$/my_files/changes_to_SDS021/sensorSDS021.py" />
         <option value="$PROJECT_DIR$/my_files/changes_to_SDS021/sensor1main.py" />
+        <option value="$PROJECT_DIR$/my_files/dataAnalysis.py" />
       </list>
     </option>
   </component>
@@ -214,7 +221,7 @@
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="right" id="Database" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32908162" />
-      <window_info anchor="right" id="SciView" sideWeight="0.5039578" visible="true" weight="0.16597222" />
+      <window_info anchor="right" id="SciView" sideWeight="0.5039578" visible="true" weight="0.16944444" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" side_tool="true" />
@@ -276,34 +283,41 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/my_files/changes_to_SDS021/wifi1main.py">
-      <provider selected="true" editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
+          <folding>
+            <element signature="e#228#245#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/my_files/dataAnalysis.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="65" column="29" lean-forward="true" selection-start-line="65" selection-start-column="29" selection-end-line="65" selection-end-column="29" />
+        <state relative-caret-position="241">
+          <caret line="106" column="26" selection-start-line="106" selection-start-column="4" selection-end-line="106" selection-end-column="26" />
           <folding>
             <element signature="e#46#61#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/my_files/changes_to_SDS021/sensor1main.py">
+    <entry file="file://$PROJECT_DIR$/my_files/changes_to_SDS021/sensorSDS021.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="46" lean-forward="true" selection-start-line="21" selection-start-column="46" selection-end-line="21" selection-end-column="46" />
+        <state relative-caret-position="428">
+          <caret line="45" column="20" lean-forward="true" selection-start-line="45" selection-start-column="20" selection-end-line="45" selection-end-column="20" />
           <folding>
-            <element signature="e#144#161#0" expanded="true" />
+            <element signature="e#145#154#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/my_files/changes_to_SDS021/sensorSDS021.py">
+    <entry file="file://$PROJECT_DIR$/my_files/changes_to_SDS021/sensor1main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="58" column="21" lean-forward="true" selection-start-line="58" selection-start-column="21" selection-end-line="58" selection-end-column="21" />
+        <state relative-caret-position="221">
+          <caret line="15" column="26" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
           <folding>
-            <element signature="e#145#154#0" expanded="true" />
+            <element signature="e#144#161#0" expanded="true" />
           </folding>
         </state>
       </provider>

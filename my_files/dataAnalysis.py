@@ -101,8 +101,9 @@ def getMacAddresses(path,sensor, start, end):
     # return an array of times and an array of data measurements
     return np.array(times), data
 
-# find all times a specific mac address was measured. then,
-# get signal for those times
+# find all times a specific mac address was measured.
+# then, get signal for those times
+# How do I do it with no ismember? :)
 def getSignalPerMacAddress()
     # call getMacAddresses
 
