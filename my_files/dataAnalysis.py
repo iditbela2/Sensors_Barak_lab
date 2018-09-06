@@ -1,4 +1,5 @@
 
+# written in python3
 # im miss ismember, accumarray, cellfunc :)
 
 import datetime
@@ -11,13 +12,20 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as md
 import operator
 from functools import reduce
+from pathlib import Path
+
+def is_folder_exists(folder):
+    return os.path.isdir(folder)
+
+def is_folder_empty(folder):
+    return os.listdir(folder) == []
 
 # find the log files that match the chosen dates and create data array of time intervals
 # and measurements. each measurement represents one minute so the time of the log-file is the end of
 # measurement and I get the number of required minutes back
 
 # get an array of the log times chosen (times_chosen = datetime, times_log=strings of that time)
-def getTimes(path,sensor, start, end, log): # log=data for PM data or log=wifi for macAdress data
+def getTimes(path, sensor, start, end, log): # log=data for PM data or log=wifi for macAdress data
     fmt = "%Y-%m-%d %H:%M:%S"
     if log=='data':
         logPath = path+str(sensor)
@@ -46,7 +54,7 @@ def getTimes(path,sensor, start, end, log): # log=data for PM data or log=wifi f
     return times_chosen, times_log
 
 def getSignalData(path, sensor, start, end):
-    times_chosen, times_log = getTimes(path,sensor, start, end, log = 'data')
+    times_chosen, times_log = getTimes(path,sensor,start,end,log = 'data')
     # extract all data from chosen logs
     all_data = []
     for ind in range(len(times_log)):
@@ -72,12 +80,12 @@ def getSignalData(path, sensor, start, end):
     # return an array of times and an array of data measurements
     return np.array(times), data
 
-# getMacAddresses returns a matrix of times and mac addresses.
+# getMacAddresses returns a matrix of times and mac addresses per certain sensor.
 # Since several addresses exist per one time of log, I should have multiple
 # identical time values (one for each mac address).
 # time of log is taken (representing time between log_time-duration and log_time)
-def getMacAddresses(path,sensor, start, end):
-    times_chosen, times_log = getTimes(path, sensor, start, end, log='wifi')
+def getMacAddresses(path, sensor, start, end):
+    times_chosen, times_log = getTimes(path,sensor,start,end,log='wifi')
     # extract all mac addresses from chosen logs
     all_mac_data = []
     for ind in range(len(times_log)):
@@ -101,16 +109,16 @@ def getMacAddresses(path,sensor, start, end):
     # return an array of times and an array of data measurements
     return np.array(times), data
 
-# find all times a specific mac address was measured.
+# find all times a specific mac address was measured in a certain sensor.
 # then, get signal for those times
 # How do I do it with no ismember? :)
-def getSignalPerMacAddress()
+def getSignalPerMacAddress(path, sensor, start, end, macAdd):
     # call getMacAddresses
-
+    times, macs = getMacAddresses(path, sensor, start, end)
     # take only data per specific mac address
-
-
-
+    find = np.where(macs == macAdd)
+    result = np.transpose(np.array([times[find],macs[find],np.ones(np.shape(times[find]))*int(sensor)]))
+    return result
 
 #------ plot some results ------
 
@@ -120,7 +128,6 @@ start_date = datetime.datetime(2018,8,1,0,0,0)
 end_date = datetime.datetime(2018,8,2,0,0,0)
 duration = 5 # measurement duration. maybe I don't need
 dataPath = '/Users/iditbela/Documents/Sensors_downloaded_data/'
-
 
 # extract data to plot a simple signal
 times, data = getSignalData(dataPath, 1, start_date, end_date)
@@ -144,6 +151,14 @@ plt.show()
 
 
 # extract data to plot per mac address
+macAdd = '186590b30ae4' #lets say this is my mac address
+# run over all sensors and extract this data
+myMacData = np.empty((1,3))
+sensors = [1,5]
+for s in sensors:
+    folder = dataPath+'wifi'+str(s)
+    if is_folder_exists(folder) and not is_folder_empty(folder):
+        myMacData = np.vstack((myMacData,getSignalPerMacAddress(dataPath,s,start_date,end_date,macAdd)))
 
 
 

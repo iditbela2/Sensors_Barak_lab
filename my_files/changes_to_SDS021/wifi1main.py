@@ -1,7 +1,9 @@
 #---------------------------------#
 # filename: wifi1main.py          #
 # author: Zhiye (Zoey) Song       #
+# changes by: Idit Belachsen      #
 #---------------------------------#
+# written in python2
 '''
 to modify: all values in sensor file
 log files separated for sensor and mac

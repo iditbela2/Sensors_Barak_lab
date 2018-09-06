@@ -1,7 +1,9 @@
 #---------------------------------#
 # filename: sensor1main.py        #
 # author: Zhiye (Zoey) Song       #
+# changes by: Idit Belachsen      #
 #---------------------------------#
+# written in python2
 import subprocess
 import datetime
 import os

@@ -1,8 +1,9 @@
 #---------------------------------#
 # filename: sensorSDS021.py       #
 # author: Zhiye (Zoey) Song       #
+# changes by: Idit Belachsen      #
 #---------------------------------#
-
+# written in python2
 import os
 import sys
 import time
