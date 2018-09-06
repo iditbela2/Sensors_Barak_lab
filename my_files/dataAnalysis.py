@@ -119,7 +119,7 @@ sensor_no = 1
 start_date = datetime.datetime(2018,8,1,0,0,0)
 end_date = datetime.datetime(2018,8,2,0,0,0)
 duration = 5 # measurement duration. maybe I don't need
-dataPath = '/Users/iditbela/Documents/Sensors_Barak_lab/downloaded_data/'
+dataPath = '/Users/iditbela/Documents/Sensors_downloaded_data/'
 
 
 # extract data to plot a simple signal
