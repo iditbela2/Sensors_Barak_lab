@@ -143,7 +143,6 @@ def uploadToDropbox(file,id):
     cmd = "sudo mv {0} /home/pi/logs/{1}/uploaded_logs/".format(file, 'wifi'+str(id))
     os.system(cmd)
     return a
-
 #--------------------------#
 # Execute Data Acquisition #
 #--------------------------#
