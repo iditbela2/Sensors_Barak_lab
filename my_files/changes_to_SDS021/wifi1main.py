@@ -27,8 +27,6 @@ def detectDevices(duration):
         and saves their MAC address and time stamps in the log file newly created.
     """
 
-
-    
     #while(int(str(datetime.datetime.now()).split(":")[1])%duration!=):
         #time.sleep(1)
     start_time=int(str(datetime.datetime.now()).split(":")[1])
