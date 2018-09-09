@@ -2,25 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="acc72597-c989-4a4b-a051-83f4368cfbe9" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Sensors_Barak_lab.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Sensors_Barak_lab.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Original_codes_Zoey/PMS5003/wifi2main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Original_codes_Zoey/PMS5003/wifi2main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_files/changes_to_PMS5003/sensor2main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_files/changes_to_PMS5003/sensorPMS5003.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_files/changes_to_PMS5003/sensordebug.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_files/changes_to_PMS5003/testdebug.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_files/changes_to_PMS5003/testdebug_bak.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_files/changes_to_PMS5003/wifi2main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_files/changes_to_PMS5003/wifi2test.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_files/changes_to_PMS5003/wifidebug.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_files/changes_to_PMS5003/wifidebug_old.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_files/changes_to_SDS021/sensor1main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_files/changes_to_SDS021/sensorSDS021.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_files/changes_to_SDS021/sensordebug.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_files/changes_to_SDS021/wifi1main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_files/changes_to_SDS021/wifidebug.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_files/dataAnalysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dataAnalysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_files/mainSensor.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sensor1main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/sensor1main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sensorSDS021.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/sensorSDS021.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/wifi1main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/wifi1main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -34,32 +19,11 @@
       <file leaf-file-name="dataAnalysis.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/dataAnalysis.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="157" column="17" selection-start-line="157" selection-start-column="17" selection-end-line="157" selection-end-column="17" />
+            <state relative-caret-position="51">
+              <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
               <folding>
                 <element signature="e#67#82#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sensorSDS021.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sensorSDS021.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
-              <folding>
-                <element signature="e#201#210#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="wifi1main.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/wifi1main.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="106">
-              <caret line="138" column="19" lean-forward="true" selection-start-line="138" selection-start-column="19" selection-end-line="138" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -68,7 +32,52 @@
         <entry file="file://$PROJECT_DIR$/src/sensor1main.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="140">
-              <caret line="20" column="85" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="85" />
+              <caret line="12" selection-start-line="12" selection-end-line="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DropboxClient.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/DropboxClient.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="connectionStatusUtils.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/connectionStatusUtils.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="15" column="16" lean-forward="true" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="wifi1main.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/wifi1main.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="97">
+              <caret line="120" selection-start-line="120" selection-end-line="136" />
+              <folding>
+                <element signature="e#285#302#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sensorSDS021.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sensorSDS021.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="420">
+              <caret line="29" column="7" lean-forward="true" selection-start-line="29" selection-start-column="7" selection-end-line="29" selection-end-column="7" />
+              <folding>
+                <element signature="e#201#210#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -84,7 +93,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>times_chosen</find>
       <find>fmt</find>
       <find>doMeasurement</find>
       <find>ind</find>
@@ -99,18 +107,22 @@
       <find>file_name</find>
       <find>persistent</find>
       <find>wifi</find>
-      <find>dropbox</find>
       <find>debug</find>
       <find>str</find>
       <find>files_upload</find>
       <find>file</find>
-      <find>uploadToDropbox</find>
       <find>zeros</find>
       <find>reduce</find>
       <find>empty</find>
-      <find>append</find>
       <find>uplo</find>
+      <find>subprocess</find>
+      <find>dropbox</find>
       <find>dbx</find>
+      <find>append</find>
+      <find>uploadT</find>
+      <find>checkInternetConnection</find>
+      <find>uploadToDropbox</find>
+      <find>checkIn</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -126,11 +138,15 @@
         <option value="$PROJECT_DIR$/my_files/changes_to_SDS021/__init__.py" />
         <option value="$PROJECT_DIR$/my_files/__init__.py" />
         <option value="$PROJECT_DIR$/my_files/changes_to_SDS021/sensor1main.py" />
-        <option value="$PROJECT_DIR$/src/sensorSDS021.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/Original_codes_Zoey/PMS5003/wifi2main.py" />
+        <option value="$PROJECT_DIR$/src/sensorSDS021.py" />
+        <option value="$PROJECT_DIR$/src/checkInternetConnection.py" />
+        <option value="$PROJECT_DIR$/src/dropboxUtils.py" />
         <option value="$PROJECT_DIR$/src/sensor1main.py" />
         <option value="$PROJECT_DIR$/src/wifi1main.py" />
+        <option value="$PROJECT_DIR$/src/DropboxClient.py" />
+        <option value="$PROJECT_DIR$/src/connectionStatusUtils.py" />
       </list>
     </option>
   </component>
@@ -245,14 +261,14 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.3513889" side_tool="true" weight="0.38392857" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Python Console" order="7" sideWeight="0.6486111" weight="0.38278145" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32980132" />
+      <window_info anchor="bottom" id="Python Console" order="7" sideWeight="0.6486111" weight="0.36556292" />
       <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32980132" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21974063" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14409222" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32908162" />
-      <window_info anchor="right" id="SciView" order="3" sideWeight="0.5039578" visible="true" weight="0.15706052" />
+      <window_info anchor="right" id="SciView" order="3" sideWeight="0.5039578" visible="true" weight="0.069884725" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -476,23 +492,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dataAnalysis.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="157" column="17" selection-start-line="157" selection-start-column="17" selection-end-line="157" selection-end-column="17" />
-          <folding>
-            <element signature="e#67#82#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/requirements.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="14" lean-forward="true" selection-start-column="14" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Original_codes_Zoey/PMS5003/wifi2main.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -510,12 +509,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/requirements.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="14" lean-forward="true" selection-start-column="14" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/sensorSDS021.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+        <state relative-caret-position="420">
+          <caret line="29" column="7" lean-forward="true" selection-start-line="29" selection-start-column="7" selection-end-line="29" selection-end-column="7" />
           <folding>
             <element signature="e#201#210#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dataAnalysis.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+          <folding>
+            <element signature="e#67#82#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DropboxClient.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -523,14 +552,24 @@
     <entry file="file://$PROJECT_DIR$/src/sensor1main.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="140">
-          <caret line="20" column="85" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="85" />
+          <caret line="12" selection-start-line="12" selection-end-line="14" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/wifi1main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="106">
-          <caret line="138" column="19" lean-forward="true" selection-start-line="138" selection-start-column="19" selection-end-line="138" selection-end-column="19" />
+        <state relative-caret-position="97">
+          <caret line="120" selection-start-line="120" selection-end-line="136" />
+          <folding>
+            <element signature="e#285#302#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/connectionStatusUtils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="16" lean-forward="true" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
         </state>
       </provider>
     </entry>

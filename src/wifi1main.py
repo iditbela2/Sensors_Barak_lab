@@ -14,7 +14,10 @@ import os
 import sys
 import time
 import dropbox
-dbx=dropbox.Dropbox('k51crRTDG-AAAAAAAAAAE0l64QIodXiNIYV1ghgNDnYm-6dP_g6sOH2kxCmuqqkD')
+from connectionStatusUtils import checkInternetConnection
+import DropboxClient
+
+dropboxClient = DropboxClient('k51crRTDG-AAAAAAAAAAE0l64QIodXiNIYV1ghgNDnYm-6dP_g6sOH2kxCmuqqkD')
 
 DURATION = 5
 DEBUG = False
@@ -121,29 +124,16 @@ def checkInternetConnection():
         This function checks if there is an internet connection
         to the wifi and uploading is possible. It returns True if yes.
     """
-    
-    count = 0
-    list=subprocess.check_output("iwconfig")
-    list=list.decode("utf-8")
-    copy=list
-    list=list.split("\n")
+
+    list = subprocess.check_output("iwconfig")
+    list = list.decode("utf-8")
+    list = list.split("\n")
     for line in list:
-        if line.find("wlan0")>-1 or line.find("wlan1")>-1:
-            if line[line.find("ESSID")+6]=="o":
-                return False
-            return True
+        if line.find("wlan0") > -1 or line.find("wlan1") > -1:
+            if not line[line.find("ESSID") + 6] == "o":
+                return True
+
     return False
-    
-def uploadToDropbox(file,id):
-    f=open('/home/pi/logs/wifi'+str(id)+'/'+file,'rb')
-    string=f.read()
-    f.close()
-    a=dbx.files_upload(string,'/wifi'+str(id)+'/'+file)
-    #move the file to uploaded logs
-    file = "'" + file + "'"
-    cmd = "sudo mv {0} /home/pi/logs/{1}/uploaded_logs/".format(file, 'wifi'+str(id))
-    os.system(cmd)
-    return a
 
 #--------------------------#
 # Execute Data Acquisition #
@@ -182,7 +172,7 @@ while True:
                     if "wifi_" in file:
                         print file
                         df.write(file+"\n")
-                        try: uploadToDropbox(file, SELECTED_HARDWARE)
+                        try: dropboxClient.uploadToDropbox(file, SELECTED_HARDWARE,'/home/pi/logs/wifi'+str(id)+'/')
                         except Exception as e:
                             print "failed"
                             print e

@@ -7,18 +7,19 @@
 import subprocess
 import datetime
 import os
-import sys
 import time
 import sensorSDS021#
-import dropbox
 import logging
+from connectionStatusUtils import checkInternetConnection
+import DropboxClient
+
 
 logging.basicConfig(
      filename='/home/pi/sensor_debug_{}.log'.format(datetime.datetime.now()),
      level=logging.DEBUG, 
      format= '[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s')
 
-dbx=dropbox.Dropbox('k51crRTDG-AAAAAAAAAAE0l64QIodXiNIYV1ghgNDnYm-6dP_g6sOH2kxCmuqqkD')
+dropboxClient = DropboxClient('k51crRTDG-AAAAAAAAAAE0l64QIodXiNIYV1ghgNDnYm-6dP_g6sOH2kxCmuqqkD')
 
 DURATION = 5 #in minutes
 DEBUG = True #True to also create a debug file
@@ -72,32 +73,6 @@ def doMeasurement(duration):
         f.write("--END OF "+str(i+1)+"--\n")
     f.close()
 
-def checkInternetConnection():
-    """function:
-        This function checks if there is an internet connection
-        to the wifi and uploading is possible. It returns True if yes.
-        """
-    
-    list=subprocess.check_output("iwconfig")
-    list=list.decode("utf-8")
-    list=list.split("\n")
-    for line in list:
-        if line.find("wlan0")>-1 or line.find("wlan1")>-1:
-            if not line[line.find("ESSID")+6]=="o":
-                return True
-        
-    return False
-    
-def uploadToDropbox(file,id):
-    with open('/home/pi/logs/'+str(id)+'/'+file,'rb') as f:
-        string=f.read()
- 
-    a=dbx.files_upload(string,'/'+str(id)+'/'+file)
-    #move the file tto uploaded logs
-    file = "'" + file + "'"
-    cmd = "sudo mv {0} /home/pi/logs/{1}/uploaded_logs/".format(file, str(id))
-    os.system(cmd)
-    return a
 
 #--------------------------#
 # Execute Data Acquisition #
@@ -138,7 +113,7 @@ while True:
                     if "log_" in file:
                         logging.debug("Trying to upload file {} to dropbox".format(file))
                         try:
-                            uploadToDropbox(file, SELECTED_HARDWARE)
+                            dropboxClient.uploadToDropbox(file, SELECTED_HARDWARE,'/home/pi/logs/'+str(id)+'/')
                             loaded_file_count+=1
                         except Exception:
                             logging.exception("Error uploading file {} to dropbox".format(file))
@@ -149,11 +124,11 @@ while True:
                 try:
                     subprocess.check_output("sudo ifconfig wlan0 up".split())
                 except:
-                    logging.warn("wlan0 failed")
+                    logging.warning("wlan0 failed")
                 try:
                     subprocess.check_output("sudo ifconfig wlan1 up".split())
                 except:
-                    logging.warn("wlan1 failed")
+                    logging.warning("wlan1 failed")
 
             #measurement
             try:

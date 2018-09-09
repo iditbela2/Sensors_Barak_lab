@@ -27,12 +27,15 @@ class SDS021Reader:
     # NOTE (Idit): understand what happens when inWaiting is 4095 (max). will it keep reading and
     # replace the old values by the new ones? or will I get old values when I read ?
     # maybe I need to start by dumping all the "old values"?
-    def readValue(self): 
+    def readValue(self):
         """function:
             Read and return a frame with length of 8 from the serial port
         """
+        # dump old measured values not yet read
+        while self.serial.inWaiting() != 0:
+            [ord(self.serial.read()) for i in range(10)]
+
         while True:
-            [ord(self.serial.read()) for i in range(10)] # will this dump everything?
             while self.serial.inWaiting() == 0:
                 time.sleep(0.01)
             #read serial input of ASCII characters as an integer
@@ -50,7 +53,7 @@ class SDS021Reader:
             NOTE (Idit): filename for debug should be initialized here since you only start reading
             when you get to round minute according to duration!
         """
-        result = np.empty((duration, 2)) #initialize the result file
+        result = np.empty((duration, 2)) #initialize the result file. 2 suits SDS, 12(?) is for 5003
         # make sure you start measuring in a round minute.
         while(int(datetime.datetime.now().minute)%duration!=0):
             time.sleep(1) #in seconds.
@@ -63,49 +66,5 @@ class SDS021Reader:
                     temp.append(self.readValue())
                 except Exception:
                     logging.exception("error in reading values using readValue()")
-            result[step,:]=np.mean(temp,0)
+            result[step,:]=np.mean(temp,0) #return mean of 1 minutes readings
         return result
-
-        #     #initialization
-        # result = [[] for i in range(duration)]
-        # file_name = "debug_" + file_name
-        # for j in range(duration):
-        #     species = [[] for i in range(2)]
-        #     while (int(datetime.datetime.now().minute)%duration<(j+1)) and ((j!=duration-1) or (int(datetime.datetime.now().minute)%duration!=0)):
-        #         try:
-        #             values = self.readValue()
-        #
-        #             #pm2.5
-        #             species[0].append(values[0])
-        #             #pm10
-        #             species[1].append(values[1])
-        #
-        #
-        #             time.sleep(1) #WHY???
-        #
-        #         except KeyboardInterrupt:
-        #             print "keyboard interrupt"
-        #             sys.exit()
-        #         except:
-        #             e = sys.exc_info()[0]
-        #             print ("ERROR: " + str(e))
-        #
-        #     #create debug file
-        # if debug:
-        #
-        #     f = open(file_name,"a+")
-        #     for pm in range(2):
-        #         for value in species[pm]:
-        #             f.write(str(value) + "\n")
-        #         f.write("-------------\n")
-        #     f.close()
-        #
-        # for i in range(len(species)):
-        #     result[j-1].append(np.average(species[i]))
-        #     '''
-        #     result.append(np.std(species[i]))
-        #     result.append(min(species[i]))
-        #     result.append(max(species[i]))
-        #     '''
-        # print "finish"+str(j)#
-        # return result
