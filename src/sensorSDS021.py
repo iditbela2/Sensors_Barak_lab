@@ -45,15 +45,15 @@ class SDS021Reader:
             pm25 = (values[2] + values[3] * 256) / float(10)
             pm10 = (values[4] + values[5] * 256) / float(10)
             return [pm25, pm10]
-                
-    def read(self, duration):
+
+    def read(self, duration, no_outputs):
         """function:
             Read the frames for a given duration and return PM 2.5 and PM 10 concentrations'
             average, [standard deviation, min, and max] PER MINUTE
             NOTE (Idit): filename for debug should be initialized here since you only start reading
             when you get to round minute according to duration!
         """
-        result = np.empty((duration, 2)) #initialize the result file. 2 suits SDS, 12(?) is for 5003
+        result = np.zeros((duration, no_outputs)) #initialize the result file. 2 suits SDS, 12(?) is for 5003
         # make sure you start measuring in a round minute.
         while(int(datetime.datetime.now().minute)%duration!=0):
             time.sleep(1) #in seconds.
@@ -66,5 +66,5 @@ class SDS021Reader:
                     temp.append(self.readValue())
                 except Exception:
                     logging.exception("error in reading values using readValue()")
-            result[step,:]=np.mean(temp,0) #return mean of 1 minutes readings
+            result[step,:] = np.mean(temp,0) #return mean of 1 minutes readings
         return result

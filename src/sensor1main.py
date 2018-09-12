@@ -12,14 +12,14 @@ import sensorSDS021#
 import logging
 from connectionStatusUtils import checkInternetConnection
 import DropboxClient
-
+from directoryUtils import setDirectory,setFolder
 
 logging.basicConfig(
      filename='/home/pi/sensor_debug_{}.log'.format(datetime.datetime.now()),
      level=logging.DEBUG, 
      format= '[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s')
 
-dropboxClient = DropboxClient('k51crRTDG-AAAAAAAAAAE0l64QIodXiNIYV1ghgNDnYm-6dP_g6sOH2kxCmuqqkD')
+dbxClt = DropboxClient('k51crRTDG-AAAAAAAAAAE0l64QIodXiNIYV1ghgNDnYm-6dP_g6sOH2kxCmuqqkD')
 
 DURATION = 5 #in minutes
 DEBUG = True #True to also create a debug file
@@ -49,30 +49,24 @@ def doMeasurement(duration):
     #measurements
     if SELECTED_HARDWARE == 1:
         USBPORT  = "/dev/ttyUSB0"
-        results = sensorSDS021.SDS021Reader(USBPORT).read(duration)
+        results = sensorSDS021.SDS021Reader(USBPORT).read(duration,no_outputs=2)
     elif SELECTED_HARDWARE == 2:
         USBPORT  = "/dev/ttyS0"
-        results = sensorPMS5003.PMS5003Reader(USBPORT).read(duration)
+        results = sensorPMS5003.PMS5003Reader(USBPORT).read(duration,no_outputs=12)
     elif SELECTED_HARDWARE == 3:
         USBPORT  = "/dev/ttyUSB0"
-        results = sensorSDS011.SDS011Reader(USBPORT).read(duration)
+        results = sensorSDS011.SDS011Reader(USBPORT).read(duration,no_outputs=2)
         
     file_name = str(datetime.datetime.now()).split(".")[0]
     file_name = "log_" + file_name
-    f = open(file_name,"w")
+    with open(file_name,"w") as f:
 
-    # #if nothing is measured #NOT SURE HOW TO CHECK IF EMPTY
-    # if len(results) == 0:
-    #     f.write("-1\n")
-    #
-    # #append results at the end of the log file
-    # else:
-    for i in range(len(results[0])):#index for pm#
-        for j in range(len(results)):#index for min#
-            f.write(str(results[j][i]) + "\n")
-        f.write("--END OF "+str(i+1)+"--\n")
-    f.close()
+        for i in range(len(results[0])):#index for pm#
+            for j in range(len(results)):#index for min#
+                f.write(str(results[j][i]) + "\n")
+            f.write("--END OF "+str(i+1)+"--\n")
 
+# in case results returned zero values, means something was not measured/was not appended to results
 
 #--------------------------#
 # Execute Data Acquisition #
@@ -82,24 +76,9 @@ while True:
         #wait for pi to boot up
         if not DEBUG:
             time.sleep(60)
-            
-        #check if there is a log folder; if not, create a new one
-        cmd = "/home/pi"
-        files = os.listdir(cmd)
-        if "logs" not in files:
-            cmd = "sudo mkdir logs"
-            os.system(cmd)
-
-        #check if there is a folder for a selected hardware; if not, create a new one
-        cmd = "/home/pi/logs"
-        files = os.listdir(cmd)
-        if str(SELECTED_HARDWARE) not in files:
-            cmd = "sudo mkdir -p logs/{0}/uploaded_logs".format(str(SELECTED_HARDWARE))
-            os.system(cmd)
-
-        #set working directory
-        log_dir = "/home/pi/logs/{0}".format(str(SELECTED_HARDWARE))
-        os.chdir(log_dir)
+        # create folders and set working directory
+        setFolder('wifi' + str(SELECTED_HARDWARE))
+        log_dir = setDirectory('wifi' + str(SELECTED_HARDWARE)
             
         while True:
 
@@ -113,7 +92,7 @@ while True:
                     if "log_" in file:
                         logging.debug("Trying to upload file {} to dropbox".format(file))
                         try:
-                            dropboxClient.uploadToDropbox(file, SELECTED_HARDWARE,'/home/pi/logs/'+str(id)+'/')
+                            dbxClt.uploadToDropbox(file,SELECTED_HARDWARE,'/home/pi/logs/'+str(SELECTED_HARDWARE)+'/')
                             loaded_file_count+=1
                         except Exception:
                             logging.exception("Error uploading file {} to dropbox".format(file))
@@ -133,9 +112,9 @@ while True:
             #measurement
             try:
                 logging.info("Starting to measure")
-                doMeasurement(DURATION, DEBUG)
+                doMeasurement(DURATION)
                 logging.info("Done measuring")
-            except Exception
+            except Exception:
                 logging.exception("Error while taking measurement")
 
     except Exception:

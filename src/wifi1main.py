@@ -13,11 +13,17 @@ import datetime
 import os
 import sys
 import time
-import dropbox
+import logging
 from connectionStatusUtils import checkInternetConnection
 import DropboxClient
+from directoryUtils import setDirectory,setFolder
 
-dropboxClient = DropboxClient('k51crRTDG-AAAAAAAAAAE0l64QIodXiNIYV1ghgNDnYm-6dP_g6sOH2kxCmuqqkD')
+logging.basicConfig(
+     filename='/home/pi/sensor_debug_{}.log'.format(datetime.datetime.now()),
+     level=logging.DEBUG,
+     format= '[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s')
+
+dbxClt = DropboxClient('k51crRTDG-AAAAAAAAAAE0l64QIodXiNIYV1ghgNDnYm-6dP_g6sOH2kxCmuqqkD')
 
 DURATION = 5
 DEBUG = False
@@ -118,22 +124,6 @@ def detectDevices(duration):
         raise Exception('pipe closed')
     return
 
-def checkInternetConnection():
-    
-    """function:
-        This function checks if there is an internet connection
-        to the wifi and uploading is possible. It returns True if yes.
-    """
-
-    list = subprocess.check_output("iwconfig")
-    list = list.decode("utf-8")
-    list = list.split("\n")
-    for line in list:
-        if line.find("wlan0") > -1 or line.find("wlan1") > -1:
-            if not line[line.find("ESSID") + 6] == "o":
-                return True
-
-    return False
 
 #--------------------------#
 # Execute Data Acquisition #
@@ -143,64 +133,46 @@ while True:
         #wait for pi to boot up
         if not DEBUG:
             time.sleep(60)
-        df=open('/home/pi/wifidebug.txt','a+')#
-        #check if there is a log folder; if not, create a new one
-        cmd = "/home/pi"
-        files = os.listdir(cmd)
-        if "logs" not in files:
-            cmd = "sudo mkdir logs"
-            os.system(cmd)
+        # create folders and set working directory
+        setFolder('wifi' + str(SELECTED_HARDWARE))
+        log_dir = setDirectory('wifi' + str(SELECTED_HARDWARE)
 
-        #check if there is a folder for a selected hardware; if not, create a new one
-        cmd = "/home/pi/logs"
-        files = os.listdir(cmd)
-        if 'wifi'+str(SELECTED_HARDWARE) not in files:
-            cmd = "sudo mkdir -p logs/{0}/uploaded_logs".format('wifi'+str(SELECTED_HARDWARE))
-            os.system(cmd)
-
-        #set working directory
-        cmd = "/home/pi/logs/{0}".format('wifi'+str(SELECTED_HARDWARE))
-        os.chdir(cmd)
-            
         while True:
 
             #upload any not uploaded log
             if checkInternetConnection():
-                cmd = "/home/pi/logs/{0}".format('wifi'+str(SELECTED_HARDWARE))
-                files = os.listdir(cmd)
+                logging.info("Found internet wireless connection, uploading existing logs to dropbox")
+                loaded_file_count = 0
+                files = os.listdir(log_dir)
                 for file in files:
                     if "wifi_" in file:
-                        print file
-                        df.write(file+"\n")
-                        try: dropboxClient.uploadToDropbox(file, SELECTED_HARDWARE,'/home/pi/logs/wifi'+str(id)+'/')
-                        except Exception as e:
-                            print "failed"
-                            print e
-                            df.write(str(e))
-                            df.write("failed\n")
-                            continue
+                        logging.debug("Trying to upload file {} to dropbox".format(file))
+                        try:
+                            dbxClt.uploadToDropbox(file,SELECTED_HARDWARE,'/home/pi/logs/wifi'+str(SELECTED_HARDWARE)+'/')
+                            loaded_file_count += 1
+                        except Exception:
+                            logging.exception("Error uploading file {} to dropbox".format(file))
+
+                logging.info("Done upploading files to dropbox, {} files loaded.".format(loaded_file_count))
+
             else:
-                subprocess.check_output(("sudo ifconfig wlan0 up").split())
-                subprocess.check_output(("sudo ifconfig wlan1 up").split())
-               
+                try:
+                    subprocess.check_output("sudo ifconfig wlan0 up".split())
+                except:
+                    logging.warning("wlan0 failed")
+                try:
+                    subprocess.check_output("sudo ifconfig wlan1 up".split())
+                except:
+                    logging.warning("wlan1 failed")
 
-            while True:
+            #measurement
+            try:
+                logging.info("Starting to measure mac addresses")
+                detectDevices(DURATION)
+                logging.info("Done measuring mac addresses")
+            except Exception:
+                logging.exception("Error while taking measurement of mac addresses")
 
-                #measurement
-                upload_info = detectDevices(DURATION)
-                #time.sleep(300)
+    except Exception:
+        logging.exception("Error in main loop")
 
-                if checkInternetConnection():
-                    break
-                else:
-                    subprocess.check_output(("sudo ifconfig wlan0 up").split())
-                    subprocess.check_output(("sudo ifconfig wlan1 up").split())
-                   
-    except Exception as e:
-        df.flush()
-        df.write(str(sys.exc_info()))
-        df.write(str(e))
-        df.write('\n')
-        print e
-        print sys.exc_info()
-        continue
