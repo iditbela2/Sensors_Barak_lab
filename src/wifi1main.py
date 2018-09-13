@@ -17,6 +17,7 @@ import logging
 from connectionStatusUtils import checkInternetConnection
 import DropboxClient
 from directoryUtils import setDirectory,setFolder
+import wifiMacAddress
 
 logging.basicConfig(
      filename='/home/pi/wifi_debug_{}.log'.format(datetime.datetime.now()),
@@ -34,10 +35,8 @@ SELECTED_HARDWARE = 1 #1 for SDS021, 2 for PMS5003, 3 for SDS011
 def detectDevices(duration):
 
     '''
-        This function calls wifiMacAddress class which contains
-        two functions - one which detects nearby wi-fi enabled devices
-        and another which organizes all mac addresses
-        found ....???
+        This function calls wifiMacAddress (MacAddressReader class) which
+        detects nearby wi-fi enabled devices and read their mac address
 
         It receives all mac addresses and their timestamps
         in the set duration parameter of time.
@@ -47,90 +46,16 @@ def detectDevices(duration):
 '''
     # get mac addresses
     fmt = "%Y-%m-%d %H:%M:%S"
-
+    results = wifiMacAddress.MacAddressReader.readMacAddress(DURATION, fmt)
 
     # write results to wifi log file
     file_name = "wifi_" + str(datetime.datetime.now()).split(".")[0]
     with open(file_name,"w") as f:
-
-
-
-
-
-
-        # initialization
-        splited_line = []
-        time_list = []
-        start_append = 0
-        exp = 0
-
-        # command line configuration
-        # only display source, and destination of the packet
-        cmd = ("sudo tshark -l -i mon0 -o column.format:" + '"src","%uhs","dst","%uhd"').split()
-
-        # execute the command
-        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-
-        # for every output line
-        for line in iter(process.stdout.readline, ""):
-
-            # acquire data for set duration of time
-            if int(str(datetime.datetime.now()).split(":")[1]) % duration == 0 and int(
-                    str(datetime.datetime.now()).split(":")[1]) != start_time:
-                process.terminate()
-                break
-
-            # start writing to the file when a MAC address is read
-            if start_append == 0:
-                if "Capturing on" in str(line):
-                    start_append = 1
-                    continue
-                else:
-                    df.write(str(line) + "\n")
-
-            splited_line = line.split(" ")
-
-            for mac in splited_line:
-
-                if "\n" not in mac:
-                    mac = mac + "\n"
-
-                # check if it is a valid MAC address
-                if ("ff:ff:ff:ff:ff:ff" not in mac) and (len(mac) == 18):
-
-                    # write the address to file if it was not detected before
-                    mac = mac.replace(":", "")
-                    if mac not in time_list:
-                        time_list.append(mac)
-                        f.write(mac)
-                        # print mac
-        if int(str(datetime.datetime.now()).split(":")[1]) % duration != 0:
-            print
-            "pipe closed"
-            df.write("pipe closed\n")
-            df.write(str(line) + "\n")
-            try:
-                subprocess.check_output(("sudo airmon-ng start wlan0").split())
-            except Exception as e:
-                df.write(str(sys.exc_info()))
-                df.write(str(e))
-                df.write('\n')
-            try:
-                subprocess.check_output(("sudo airmon-ng start wlan1").split())
-            except Exception as e:
-                df.write(str(sys.exc_info()))
-                df.write(str(e))
-                df.write('\n')
-
-        ##        exp=1
-        df.write(subprocess.check_output("free -m".split()))
-        f.write("---END OF MAC ADDRESSES---")
-        f.close()
-        process.terminate()
-        if exp == 1:
-            raise Exception('pipe closed')
-        return
-
+        msg = ['MAC ADDRESSES','TIMESTEMPS']
+        for i in range(len(results)):
+            for j in range(len(results[0])):
+                f.write(results[i][j] + "\n")
+            f.write("--END OF " + msg[i] + "--\n")
 
 #--------------------------#
 # Execute Data Acquisition #

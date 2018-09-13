@@ -23,20 +23,6 @@ class MacAddressReader:
         # execute the command
         self.pr = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, preexec_fn=os.setpgrp)
 
-    def readValue(self):
-        """
-        function returns timestamp and mac address. Identical mac addresses
-        could be found.
-        """
-        macAddress = []
-        while True:
-            lines = self.pr.stdout.readline().split()
-            for mac in lines:
-                if ("ff:ff:ff:ff:ff:ff" not in mac) and (len(mac) == 18):
-                    macAddress.append(mac)
-            if lines == '' and self.pr.poll() is not None:
-                break
-        return ''.join(macAddress)
 
     def readMacAddress(self, duration, fmt):
         """function:
@@ -54,11 +40,17 @@ class MacAddressReader:
         mst_time = datetime.timedelta(hours=0, minutes=duration)
         while datetime.datetime.now() < start_time + mst_time:
             try:
-                mac_list.append(self.readValue())
-                time_list.append(datetime.datetime.now().strftime(fmt))
+                lines = self.pr.stdout.readline().split()
+                for mac in lines:
+                    if ("ff:ff:ff:ff:ff:ff" not in mac) and (len(mac) == 17) and (
+                            mac not in mac_list):
+                        mac_list.append(mac)
+                        time_list.append(datetime.datetime.now().strftime(fmt))
             except Exception:
                 logging.exception("error in reading mac values using readValue()")
-        return np.array([mac_list,time_list])  #what is this error?
+        # terminate the process ???
+
+        return np.array([mac_list,time_list])
 
 
 

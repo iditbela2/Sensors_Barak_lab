@@ -30,20 +30,20 @@ class SDS021Reader:
         """function:
             Read and return a frame with length of 8 from the serial port
         """
-        # dump old measured values not yet read
+        # dump old measured values not yet read (do I need it?)
         while self.serial.inWaiting() != 0:
             [ord(self.serial.read()) for i in range(10)]
 
-        while True:
-            while self.serial.inWaiting() == 0:
-                time.sleep(0.01)
-            #read serial input of ASCII characters as an integer
-            values = [ord(self.serial.read()) for i in range(10)]#total of 10 bit
-            # but only focus on 3rd to 6th DATA bits
-            # low and high*265 byte / 10... according to documentation
-            pm25 = (values[2] + values[3] * 256) / float(10)
-            pm10 = (values[4] + values[5] * 256) / float(10)
-            return [pm25, pm10]
+        while self.serial.inWaiting() == 0:
+            time.sleep(0.01)
+        #read serial input of ASCII characters as an integer
+        # MAYBE READLINE INSTEAD?
+        values = [ord(self.serial.read()) for i in range(10)]#total of 10 bit
+        # but only focus on 3rd to 6th DATA bits
+        # low and high*265 byte / 10... according to documentation
+        pm25 = (values[2] + values[3] * 256) / float(10)
+        pm10 = (values[4] + values[5] * 256) / float(10)
+        return [pm25, pm10]
 
     def readPM(self, duration, no_outputs):
         """function:
@@ -61,7 +61,7 @@ class SDS021Reader:
             temp = []
             while(int(datetime.datetime.now().minute)%duration==step):
                 try:
-                    temp.append(self.readValue())
+                    temp.append(self.readValue())  #could values potentialy be empty/zero ?
                 except Exception:
                     logging.exception("error in reading PM values using readValue()")
             result[step,:] = np.mean(temp,0) #return mean of 1 minutes readings
