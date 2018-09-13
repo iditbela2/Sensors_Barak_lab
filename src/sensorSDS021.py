@@ -4,8 +4,7 @@
 # changes by: Idit Belachsen      #
 #---------------------------------#
 # written in python2
-import os
-import sys
+
 import time
 import serial
 import numpy as np
@@ -46,7 +45,7 @@ class SDS021Reader:
             pm10 = (values[4] + values[5] * 256) / float(10)
             return [pm25, pm10]
 
-    def read(self, duration, no_outputs):
+    def readPM(self, duration, no_outputs):
         """function:
             Read the frames for a given duration and return PM 2.5 and PM 10 concentrations'
             average, [standard deviation, min, and max] PER MINUTE
@@ -58,13 +57,12 @@ class SDS021Reader:
         while(int(datetime.datetime.now().minute)%duration!=0):
             time.sleep(1) #in seconds.
         logging.info("started reading")
-        #file_name = "debug_" + str(datetime.datetime.now()).split(".")[0]
         for step in range(duration):
             temp = []
             while(int(datetime.datetime.now().minute)%duration==step):
                 try:
                     temp.append(self.readValue())
                 except Exception:
-                    logging.exception("error in reading values using readValue()")
+                    logging.exception("error in reading PM values using readValue()")
             result[step,:] = np.mean(temp,0) #return mean of 1 minutes readings
         return result

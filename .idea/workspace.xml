@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="acc72597-c989-4a4b-a051-83f4368cfbe9" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/src/DropboxClient.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/DropboxClient.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/connectionStatusUtils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/connectionStatusUtils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sensor1main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/sensor1main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sensorSDS021.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/sensorSDS021.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/wifi1main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/wifi1main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/wifi2test.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -30,14 +30,14 @@
     <select />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.44444445">
+    <splitter split-orientation="horizontal" split-proportion="0.27468154">
       <split-first>
         <leaf>
-          <file leaf-file-name="sensor1main.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="sensor1main.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/sensor1main.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="304">
-                  <caret line="121" lean-forward="true" selection-start-line="120" selection-start-column="8" selection-end-line="121" />
+                <state relative-caret-position="281">
+                  <caret line="58" selection-start-line="58" selection-end-line="58" />
                   <folding>
                     <element signature="e#201#218#0" expanded="true" />
                   </folding>
@@ -45,22 +45,25 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="directoryUtils.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/directoryUtils.py">
+          <file leaf-file-name="sensorSDS021.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/sensorSDS021.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="187">
-                  <caret line="11" column="11" selection-start-line="11" selection-start-column="11" selection-end-line="11" selection-end-column="11" />
+                <state relative-caret-position="310">
+                  <caret line="40" column="30" selection-start-line="40" selection-start-column="30" selection-end-line="40" selection-end-column="30" />
+                  <folding>
+                    <element signature="e#202#213#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="DropboxClient.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/DropboxClient.py">
+          <file leaf-file-name="wifi1main.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/wifi1main.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="210">
-                  <caret line="13" column="27" selection-start-line="13" selection-start-column="27" selection-end-line="13" selection-end-column="27" />
+                <state relative-caret-position="173">
+                  <caret line="98" selection-start-line="98" selection-end-line="98" selection-end-column="73" />
                   <folding>
-                    <element signature="e#0#9#0" expanded="true" />
+                    <element signature="e#285#302#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -70,13 +73,25 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="wifi1main.py" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/wifi1main.py">
+          <file leaf-file-name="dataAnalysis.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/dataAnalysis.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="291">
-                  <caret line="178" lean-forward="true" selection-start-line="178" selection-end-line="178" />
+                <state relative-caret-position="240">
+                  <caret line="75" column="33" selection-start-line="75" selection-start-column="33" selection-end-line="75" selection-end-column="33" />
                   <folding>
-                    <element signature="e#285#302#0" expanded="true" />
+                    <element signature="e#67#82#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="wifiMacAddress.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/wifiMacAddress.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="206">
+                  <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
+                  <folding>
+                    <element signature="e#1#10#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -95,10 +110,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>sensor_de</find>
-      <find>filename</find>
-      <find>file_name</find>
-      <find>persistent</find>
       <find>wifi</find>
       <find>debug</find>
       <find>str</find>
@@ -120,11 +131,15 @@
       <find>detectDevices</find>
       <find>dbx</find>
       <find>uploadToDropbox</find>
-      <find>id</find>
       <find>checkInternetConnection</find>
-      <find>loaded_file</find>
       <find>detectDe</find>
       <find>upload_info</find>
+      <find>start_time</find>
+      <find>id</find>
+      <find>loaded_file</find>
+      <find>duration</find>
+      <find>fmt</find>
+      <find>time_list</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -145,13 +160,15 @@
         <option value="$PROJECT_DIR$/src/checkInternetConnection.py" />
         <option value="$PROJECT_DIR$/src/dropboxUtils.py" />
         <option value="$PROJECT_DIR$/src/read.py" />
-        <option value="$PROJECT_DIR$/src/sensorSDS021.py" />
         <option value="$PROJECT_DIR$/src/DropboxClient.py" />
         <option value="$PROJECT_DIR$/src/setDirectory.py" />
         <option value="$PROJECT_DIR$/src/connectionStatusUtils.py" />
         <option value="$PROJECT_DIR$/src/directoryUtils.py" />
+        <option value="$PROJECT_DIR$/src/MacAddressReader.py" />
         <option value="$PROJECT_DIR$/src/sensor1main.py" />
+        <option value="$PROJECT_DIR$/src/sensorSDS021.py" />
         <option value="$PROJECT_DIR$/src/wifi1main.py" />
+        <option value="$PROJECT_DIR$/src/wifiMacAddress.py" />
       </list>
     </option>
   </component>
@@ -267,9 +284,9 @@
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32980132" />
-      <window_info anchor="bottom" id="Python Console" order="7" sideWeight="0.6486111" visible="true" weight="0.36556292" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.19337748" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16930836" />
+      <window_info anchor="bottom" id="Python Console" order="7" sideWeight="0.6486111" weight="0.17218544" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.23708609" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.048991356" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" weight="0.3299712" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32908162" />
@@ -544,26 +561,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dataAnalysis.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
-          <folding>
-            <element signature="e#67#82#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sensorSDS021.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="387">
-          <caret line="65" column="30" selection-start-line="65" selection-start-column="30" selection-end-line="65" selection-end-column="30" />
-          <folding>
-            <element signature="e#201#210#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/connectionStatusUtils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
@@ -571,13 +568,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/DropboxClient.py">
+    <entry file="file://$PROJECT_DIR$/src/wifi2test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="13" column="27" selection-start-line="13" selection-start-column="27" selection-end-line="13" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-306">
+          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -588,10 +582,40 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/DropboxClient.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="35" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sensorSDS021.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="40" column="30" selection-start-line="40" selection-start-column="30" selection-end-line="40" selection-end-column="30" />
+          <folding>
+            <element signature="e#202#213#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dataAnalysis.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="75" column="33" selection-start-line="75" selection-start-column="33" selection-end-line="75" selection-end-column="33" />
+          <folding>
+            <element signature="e#67#82#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/sensor1main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="121" lean-forward="true" selection-start-line="120" selection-start-column="8" selection-end-line="121" />
+        <state relative-caret-position="281">
+          <caret line="58" selection-start-line="58" selection-end-line="58" />
           <folding>
             <element signature="e#201#218#0" expanded="true" />
           </folding>
@@ -600,10 +624,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/wifi1main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="178" lean-forward="true" selection-start-line="178" selection-end-line="178" />
+        <state relative-caret-position="173">
+          <caret line="98" selection-start-line="98" selection-end-line="98" selection-end-column="73" />
           <folding>
             <element signature="e#285#302#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/wifiMacAddress.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="206">
+          <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
+          <folding>
+            <element signature="e#1#10#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -33,7 +33,7 @@ def doMeasurement(duration):
         This function calls one of the three sensor
         reader classes according to which station 
         was selected. It receives all values 
-        of everything after 
+        of everything (averaged per minute) after
         a measurement of a set duration of time.
         
         Then it creates a new log file and stores the data.
@@ -46,27 +46,26 @@ def doMeasurement(duration):
     # I removed the file_name initialization and the name of the debug file will be determined
     # in the read function in sensorSDS021.SDS021Reader
 
-    #measurements
+    # get PM measurements
     if SELECTED_HARDWARE == 1:
         USBPORT  = "/dev/ttyUSB0"
-        results = sensorSDS021.SDS021Reader(USBPORT).read(duration,no_outputs=2)
+        results = sensorSDS021.SDS021Reader(USBPORT).readPM(duration,no_outputs=2)
     elif SELECTED_HARDWARE == 2:
         USBPORT  = "/dev/ttyS0"
-        results = sensorPMS5003.PMS5003Reader(USBPORT).read(duration,no_outputs=12)
+        results = sensorPMS5003.PMS5003Reader(USBPORT).readPM(duration,no_outputs=12)
     elif SELECTED_HARDWARE == 3:
         USBPORT  = "/dev/ttyUSB0"
-        results = sensorSDS011.SDS011Reader(USBPORT).read(duration,no_outputs=2)
-        
-    file_name = str(datetime.datetime.now()).split(".")[0]
-    file_name = "log_" + file_name
+        results = sensorSDS011.SDS011Reader(USBPORT).readPM(duration,no_outputs=2)
+
+    # (in case results returned zero values, means something was not measured/was not appended to results)
+    # write results to log file
+    file_name = "log_" + str(datetime.datetime.now()).split(".")[0]
     with open(file_name,"w") as f:
 
         for i in range(len(results[0])):#index for pm#
             for j in range(len(results)):#index for min#
                 f.write(str(results[j][i]) + "\n")
             f.write("--END OF "+str(i+1)+"--\n")
-
-# in case results returned zero values, means something was not measured/was not appended to results
 
 #--------------------------#
 # Execute Data Acquisition #
