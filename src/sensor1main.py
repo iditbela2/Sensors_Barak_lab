@@ -12,7 +12,7 @@ import sensorSDS021#
 import logging
 from connectionStatusUtils import checkInternetConnection
 import DropboxClient
-from directoryUtils import setDirectory,setFolder
+from directoryUtils import setWorkingDirectory,setFolder
 
 logging.basicConfig(
      filename='/home/pi/sensor_debug_{}.log'.format(datetime.datetime.now()),
@@ -76,8 +76,8 @@ while True:
         if not DEBUG:
             time.sleep(60)
         # create folders and set working directory
-        setFolder('wifi' + str(SELECTED_HARDWARE))
-        log_dir = setDirectory('wifi' + str(SELECTED_HARDWARE)
+        setFolder(str(SELECTED_HARDWARE))
+        log_dir = setWorkingDirectory(str(SELECTED_HARDWARE))
             
         while True:
 

@@ -16,8 +16,8 @@ import time
 import logging
 from connectionStatusUtils import checkInternetConnection
 import DropboxClient
-from directoryUtils import setDirectory,setFolder
-import wifiMacAddress
+from directoryUtils import setWorkingDirectory,setFolder
+import wifiMacAddress.MacAddressReader
 
 logging.basicConfig(
      filename='/home/pi/wifi_debug_{}.log'.format(datetime.datetime.now()),
@@ -25,6 +25,7 @@ logging.basicConfig(
      format= '[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s')
 
 dbxClt = DropboxClient('k51crRTDG-AAAAAAAAAAE0l64QIodXiNIYV1ghgNDnYm-6dP_g6sOH2kxCmuqqkD')
+macAddRdr = wifiMacAddress.MacAddressReader()  # create an instance of MacAddressReader class
 
 DURATION = 5
 DEBUG = True
@@ -46,7 +47,7 @@ def detectDevices(duration):
 '''
     # get mac addresses
     fmt = "%Y-%m-%d %H:%M:%S"
-    results = wifiMacAddress.MacAddressReader.readMacAddress(DURATION, fmt)
+    results = macAddRdr.readMacAddress(DURATION, fmt)
 
     # write results to wifi log file
     file_name = "wifi_" + str(datetime.datetime.now()).split(".")[0]
@@ -67,7 +68,7 @@ while True:
             time.sleep(60)
         # create folders and set working directory
         setFolder('wifi' + str(SELECTED_HARDWARE))
-        log_dir = setDirectory('wifi' + str(SELECTED_HARDWARE)
+        log_dir = setWorkingDirectory('wifi' + str(SELECTED_HARDWARE))
 
         while True:
 

@@ -16,7 +16,7 @@ def setFolder(path):
         cmd = "sudo mkdir -p logs/{0}/uploaded_logs".format(path)
         os.system(cmd)
 
-def setDirectory(path):
+def setWorkingDirectory(path):
 
     # set working directory
     log_dir = "/home/pi/logs/{0}".format(path)
