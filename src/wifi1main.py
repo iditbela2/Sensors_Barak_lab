@@ -27,7 +27,7 @@ logging.basicConfig(
 dbxClt = DropboxClient.DropboxClient('k51crRTDG-AAAAAAAAAAE0l64QIodXiNIYV1ghgNDnYm-6dP_g6sOH2kxCmuqqkD')
 macAddRdr = wifiMacAddress.MacAddressReader()  # create an instance of MacAddressReader class
 
-DURATION = 5
+DURATION = 1
 DEBUG = True
 
 #hardware id
@@ -50,6 +50,7 @@ def detectDevices(duration):
     results = macAddRdr.readMacAddress(DURATION, fmt)
 
     # write results to wifi log file
+    # CHANGE TO FULL PATH
     file_name = "wifi_" + str(datetime.datetime.now()).split(".")[0]
     with open(file_name,"w") as f:
         msg = ['MAC ADDRESSES','TIMESTEMPS']
@@ -81,7 +82,7 @@ while True:
                     if "wifi_" in file:
                         logging.debug("Trying to upload file {} to dropbox".format(file))
                         try:
-                            dbxClt.uploadToDropbox(file, SELECTED_HARDWARE, 'wifi' + str(SELECTED_HARDWARE))
+                            dbxClt.uploadToDropbox(file, 'wifi' + str(SELECTED_HARDWARE))
                             loaded_file_count += 1
                         except Exception:
                             logging.exception("Error uploading file {} to dropbox".format(file))
