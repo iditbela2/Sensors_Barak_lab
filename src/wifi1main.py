@@ -17,14 +17,14 @@ import logging
 from connectionStatusUtils import checkInternetConnection
 import DropboxClient
 from directoryUtils import setWorkingDirectory,setFolder
-import wifiMacAddress.MacAddressReader
+import wifiMacAddress
 
 logging.basicConfig(
      filename='/home/pi/wifi_debug_{}.log'.format(datetime.datetime.now()),
      level=logging.DEBUG,
      format= '[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s')
 
-dbxClt = DropboxClient('k51crRTDG-AAAAAAAAAAE0l64QIodXiNIYV1ghgNDnYm-6dP_g6sOH2kxCmuqqkD')
+dbxClt = DropboxClient.DropboxClient('k51crRTDG-AAAAAAAAAAE0l64QIodXiNIYV1ghgNDnYm-6dP_g6sOH2kxCmuqqkD')
 macAddRdr = wifiMacAddress.MacAddressReader()  # create an instance of MacAddressReader class
 
 DURATION = 5

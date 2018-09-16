@@ -17,9 +17,9 @@ from directoryUtils import setWorkingDirectory,setFolder
 logging.basicConfig(
      filename='/home/pi/sensor_debug_{}.log'.format(datetime.datetime.now()),
      level=logging.DEBUG, 
-     format= '[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s')
+     format='[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s')
 
-dbxClt = DropboxClient('k51crRTDG-AAAAAAAAAAE0l64QIodXiNIYV1ghgNDnYm-6dP_g6sOH2kxCmuqqkD')
+dbxClt = DropboxClient.DropboxClient('k51crRTDG-AAAAAAAAAAE0l64QIodXiNIYV1ghgNDnYm-6dP_g6sOH2kxCmuqqkD')
 
 DURATION = 5 #in minutes
 DEBUG = True #True to also create a debug file
