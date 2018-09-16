@@ -10,8 +10,8 @@ class DropboxClient:
         with open(path+file,'rb') as f:
             string=f.read()
 
-        a=self.dbx.files_upload(string,'/'+str(hardware)+'/'+file)
-        #move the file tto uploaded logs
+        a=self.dbx.files_upload(string,'/'+path+'/'+file)
+        #move the file to uploaded logs
         file = "'" + file + "'"
         cmd = "sudo mv {0} {1}uploaded_logs/".format(file, path)
         os.system(cmd)

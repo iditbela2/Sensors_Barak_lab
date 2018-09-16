@@ -14,7 +14,7 @@ import logging
 class SDS021Reader:
 
     logging.basicConfig(
-        filename='/home/pi/SDS021Reader_debug_{}.log'.format(datetime.datetime.now()),
+        filename='/home/pi/Sensors_Barak_lab/logs_debug/SDS021Reader_debug_{}.log'.format(datetime.datetime.now()),
         level=logging.DEBUG,
         format='[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s')
 
@@ -56,7 +56,7 @@ class SDS021Reader:
         # make sure you start measuring in a round minute.
         while(int(datetime.datetime.now().minute)%duration!=0):
             time.sleep(1) #in seconds.
-        logging.info("started reading")
+        logging.info("started reading PM data")
         for step in range(duration):
             temp = []
             while(int(datetime.datetime.now().minute)%duration==step):

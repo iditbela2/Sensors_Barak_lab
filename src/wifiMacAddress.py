@@ -11,7 +11,7 @@ import subprocess
 class MacAddressReader:
 
     logging.basicConfig(
-        filename='/home/pi/wifi_mac_address_debug_{}.log'.format(datetime.datetime.now()),
+        filename='/home/pi/logs_debug/wifiMacAddress_debug_{}.log'.format(datetime.datetime.now()),
         level=logging.DEBUG,
         format='[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s')
 
@@ -33,7 +33,7 @@ class MacAddressReader:
         # make sure you start measuring in a round minute.
         while int(datetime.datetime.now().minute)%duration != 0:
             time.sleep(1)  # in seconds.
-        logging.info("started reading")
+        logging.info("started reading mac addresses")
         mac_list = []
         time_list = []
         start_time = datetime.datetime.now()

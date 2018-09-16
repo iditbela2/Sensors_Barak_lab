@@ -20,7 +20,7 @@ from directoryUtils import setWorkingDirectory,setFolder
 import wifiMacAddress
 
 logging.basicConfig(
-     filename='/home/pi/wifi_debug_{}.log'.format(datetime.datetime.now()),
+     filename='/home/pi/logs_debug/wifi_main_debug_{}.log'.format(datetime.datetime.now()),
      level=logging.DEBUG,
      format= '[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s')
 
@@ -81,7 +81,7 @@ while True:
                     if "wifi_" in file:
                         logging.debug("Trying to upload file {} to dropbox".format(file))
                         try:
-                            dbxClt.uploadToDropbox(file,SELECTED_HARDWARE,'/home/pi/logs/wifi'+str(SELECTED_HARDWARE)+'/')
+                            dbxClt.uploadToDropbox(file, SELECTED_HARDWARE, 'wifi' + str(SELECTED_HARDWARE))
                             loaded_file_count += 1
                         except Exception:
                             logging.exception("Error uploading file {} to dropbox".format(file))

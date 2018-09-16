@@ -106,6 +106,7 @@ while True:
             time.sleep(5)
         df=open('/home/pi/sensordebug.txt','a+')#
         #check if there is a log folder; if not, create a new one
+
         cmd = "/home/pi"
         files = os.listdir(cmd)
         if "logs" not in files:
