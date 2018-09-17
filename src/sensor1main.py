@@ -59,7 +59,7 @@ def doMeasurement(duration):
 
     # (in case results returned zero values, means something was not measured/was not appended to results)
     # write results to log file
-    file_name = "log_" + str(datetime.datetime.now()).split(".")[0]
+    file_name = "/home/pi/logs_data/log_" + str(datetime.datetime.now()).split(".")[0]
     with open(file_name,"w") as f:
 
         for i in range(len(results[0])):#index for pm#

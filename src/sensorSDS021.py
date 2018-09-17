@@ -14,7 +14,7 @@ import logging
 class SDS021Reader:
 
     logging.basicConfig(
-        filename='/home/pi/Sensors_Barak_lab/logs_debug/SDS021Reader_debug_{}.log'.format(datetime.datetime.now()),
+        filename='/home/pi/logs_debug/SDS021Reader_debug_{}.log'.format(datetime.datetime.now()),
         level=logging.DEBUG,
         format='[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s')
 

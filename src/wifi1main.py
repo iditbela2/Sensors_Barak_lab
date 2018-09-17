@@ -51,7 +51,7 @@ def detectDevices(duration):
 
     # write results to wifi log file
     # CHANGE TO FULL PATH
-    file_name = "wifi_" + str(datetime.datetime.now()).split(".")[0]
+    file_name = "/home/pi/logs_data/wifi_" + str(datetime.datetime.now()).split(".")[0]
     with open(file_name,"w") as f:
         msg = ['MAC ADDRESSES','TIMESTEMPS']
         for i in range(len(results)):
