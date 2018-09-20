@@ -29,7 +29,7 @@ SELECTED_HARDWARE = 1 #1 for SDS021, 2 for PMS5003, 3 for SDS011
 setFolder('wifi' + str(SELECTED_HARDWARE))
 
 import wifiMacAddress
-macAddRdr = wifiMacAddress.MacAddressReader()  # create an instance of MacAddressReader class
+macAddRdr = wifiMacAddress.MacAddressReader()  # create an instance of MacAddressReader class. hopefully if a process is opened here I dont have to kill it each time (had some issues with that)
 
 # create log debug file
 logging.basicConfig(
@@ -60,11 +60,11 @@ def detectDevices(duration):
     # CHANGE TO FULL PATH
     file_name = "/home/pi/logs_data/" + 'wifi' + str(SELECTED_HARDWARE) + "/" + "wifi_" + str(datetime.datetime.now()).split(".")[0]
     with open(file_name,"w") as f:
-        msg = ['MAC ADDRESSES','TIMESTEMPS']
+        header = ['MAC ADDRESSES','TIMESTEMPS']
         for i in range(len(results)):
             for j in range(len(results[0])):
                 f.write(results[i][j] + "\n")
-            f.write("--END OF " + msg[i] + "--\n")
+            f.write("--END OF " + header[i] + "--\n")
 
 #--------------------------#
 # Execute Data Acquisition #

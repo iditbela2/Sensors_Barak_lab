@@ -70,6 +70,7 @@ def doMeasurement(duration):
     # write results to log file
     file_name = "/home/pi/logs_data/" + str(SELECTED_HARDWARE) + "/" + "log_" + str(datetime.datetime.now()).split(".")[0]
     with open(file_name,"w") as f:
+        header = ['','']
         for i in range(len(results[0])):#index for pm#
             for j in range(len(results)):#index for min#
                 f.write(str(results[j][i]) + "\n")
