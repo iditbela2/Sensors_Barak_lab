@@ -8,24 +8,33 @@ import subprocess
 import datetime
 import os
 import time
-import sensorSDS021#
 import logging
 from connectionStatusUtils import checkInternetConnection
 import DropboxClient
 from directoryUtils import setWorkingDirectory,setFolder
 
+# create an instance of the dropbox class 
+dbxClt = DropboxClient.DropboxClient('k51crRTDG-AAAAAAAAAAE0l64QIodXiNIYV1ghgNDnYm-6dP_g6sOH2kxCmuqqkD')
+
+# set duration = after how many minutes data is written to a log file and uploaded to dropbox
+DURATION = 2 #in minutes - NOTE IT SHOULD BE AT LEAST 2 MINUTES OTHERWISE WILL RUN FOREVER
+
+#hardware id
+SELECTED_HARDWARE = 1 #1 for SDS021, 2 for PMS5003, 3 for SDS011
+
+# create folders
+setFolder(str(SELECTED_HARDWARE))
+
+import sensorSDS021  #importing is done here because class is creating a file in logs_debug folder which is only created in setFolder
+
+# create log debug file
 logging.basicConfig(
      filename='/home/pi/logs_debug/sensor_debug_{}.log'.format(datetime.datetime.now()),
      level=logging.DEBUG, 
      format='[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s')
 
-dbxClt = DropboxClient.DropboxClient('k51crRTDG-AAAAAAAAAAE0l64QIodXiNIYV1ghgNDnYm-6dP_g6sOH2kxCmuqqkD')
-
-DURATION = 1 #in minutes - NOTE IT SHOULD BE AT LEAST 2 MINUTES OTHERWISE WILL RUN FOREVER
-DEBUG = True #True to also create a debug file
-
-#hardware id
-SELECTED_HARDWARE = 1 #1 for SDS021, 2 for PMS5003, 3 for SDS011
+#set working directory
+log_dir = setWorkingDirectory(str(SELECTED_HARDWARE))
 
 def doMeasurement(duration):
 
@@ -59,9 +68,8 @@ def doMeasurement(duration):
 
     # (in case results returned zero values, means something was not measured/was not appended to results)
     # write results to log file
-    file_name = "/home/pi/logs_data/log_" + str(datetime.datetime.now()).split(".")[0]
+    file_name = "/home/pi/logs_data/" + str(SELECTED_HARDWARE) + "/" + "log_" + str(datetime.datetime.now()).split(".")[0]
     with open(file_name,"w") as f:
-
         for i in range(len(results[0])):#index for pm#
             for j in range(len(results)):#index for min#
                 f.write(str(results[j][i]) + "\n")
@@ -70,29 +78,23 @@ def doMeasurement(duration):
 #--------------------------#
 # Execute Data Acquisition #
 #--------------------------#
-logging.info("Starting data acquisition")
-while True and DURATION>1:
-    try:
-        #wait for pi to boot up
-        if not DEBUG:
-            time.sleep(60)
-        # create folders and set working directory
-        setFolder(str(SELECTED_HARDWARE))
-        log_dir = setWorkingDirectory(str(SELECTED_HARDWARE))
-            
-        while True:
+if DURATION==1:
+      logging.exception("Duration must be greater than 1 minute")
 
+while True and DURATION>1:
+    logging.info("Starting data acquisition")
+    try:            
+        while True:
             #upload any not uploaded log
             if checkInternetConnection():
                 logging.info("Found internet wireless connection, uploading existing logs to dropbox")
-                #cmd = "/home/pi/logs/{0}".format(str(SELECTED_HARDWARE))
                 loaded_file_count = 0
                 files = os.listdir(log_dir)
                 for file in files:
                     if "log_" in file:
                         logging.debug("Trying to upload file {} to dropbox".format(file))
                         try:
-                            dbxClt.uploadToDropbox(file, SELECTED_HARDWARE, str(SELECTED_HARDWARE))
+                            dbxClt.uploadToDropbox(file, str(SELECTED_HARDWARE))
                             loaded_file_count+=1
                         except Exception:
                             logging.exception("Error uploading file {} to dropbox".format(file))
@@ -120,3 +122,5 @@ while True and DURATION>1:
     except Exception:
         logging.exception("Error in main loop")
 
+  
+    

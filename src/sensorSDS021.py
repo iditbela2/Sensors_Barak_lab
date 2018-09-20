@@ -51,16 +51,14 @@ class SDS021Reader:
             NOTE (Idit): filename for debug should be initialized here since you only start reading
             when you get to round minute according to duration!
         """
-        if duration==1:
-            logging.exception("duration must be greater than 1")
         result = np.zeros((duration, no_outputs)) #initialize the result file. 2 suits SDS, 12(?) is for 5003
-        # make sure you start measuring in a round minute.
-        while(int(datetime.datetime.now().minute)%duration!=0):
+        # make sure you start measuring in a round minute and a round second.
+        while(datetime.datetime.now().minute%duration!=0):
             time.sleep(1) #in seconds.
         logging.info("started reading PM data")
         for step in range(duration):
             temp = []
-            while(int(datetime.datetime.now().minute)%duration==step):
+            while(datetime.datetime.now().minute%duration==step):
                 try:
                     temp.append(self.readValue())  #could values potentialy be empty/zero ?
                 except Exception:

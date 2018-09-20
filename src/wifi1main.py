@@ -17,21 +17,28 @@ import logging
 from connectionStatusUtils import checkInternetConnection
 import DropboxClient
 from directoryUtils import setWorkingDirectory,setFolder
-import wifiMacAddress
 
+dbxClt = DropboxClient.DropboxClient('k51crRTDG-AAAAAAAAAAE0l64QIodXiNIYV1ghgNDnYm-6dP_g6sOH2kxCmuqqkD')
+
+DURATION = 2
+
+#hardware id
+SELECTED_HARDWARE = 1 #1 for SDS021, 2 for PMS5003, 3 for SDS011
+
+# create folders 
+setFolder('wifi' + str(SELECTED_HARDWARE))
+
+import wifiMacAddress
+macAddRdr = wifiMacAddress.MacAddressReader()  # create an instance of MacAddressReader class
+
+# create log debug file
 logging.basicConfig(
      filename='/home/pi/logs_debug/wifi_main_debug_{}.log'.format(datetime.datetime.now()),
      level=logging.DEBUG,
      format= '[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s')
 
-dbxClt = DropboxClient.DropboxClient('k51crRTDG-AAAAAAAAAAE0l64QIodXiNIYV1ghgNDnYm-6dP_g6sOH2kxCmuqqkD')
-macAddRdr = wifiMacAddress.MacAddressReader()  # create an instance of MacAddressReader class
-
-DURATION = 1
-DEBUG = True
-
-#hardware id
-SELECTED_HARDWARE = 1 #1 for SDS021, 2 for PMS5003, 3 for SDS011
+# set working directory
+log_dir = setWorkingDirectory('wifi' + str(SELECTED_HARDWARE))
 
 def detectDevices(duration):
 
@@ -51,7 +58,7 @@ def detectDevices(duration):
 
     # write results to wifi log file
     # CHANGE TO FULL PATH
-    file_name = "/home/pi/logs_data/wifi_" + str(datetime.datetime.now()).split(".")[0]
+    file_name = "/home/pi/logs_data/" + 'wifi' + str(SELECTED_HARDWARE) + "/" + "wifi_" + str(datetime.datetime.now()).split(".")[0]
     with open(file_name,"w") as f:
         msg = ['MAC ADDRESSES','TIMESTEMPS']
         for i in range(len(results)):
@@ -64,15 +71,7 @@ def detectDevices(duration):
 #--------------------------#
 while True:
     try:
-        #wait for pi to boot up
-        if not DEBUG:
-            time.sleep(60)
-        # create folders and set working directory
-        setFolder('wifi' + str(SELECTED_HARDWARE))
-        log_dir = setWorkingDirectory('wifi' + str(SELECTED_HARDWARE))
-
         while True:
-
             #upload any not uploaded log
             if checkInternetConnection():
                 logging.info("Found internet wireless connection, uploading existing logs to dropbox")
