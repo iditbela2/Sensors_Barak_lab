@@ -21,7 +21,7 @@ logging.basicConfig(
 
 dbxClt = DropboxClient.DropboxClient('k51crRTDG-AAAAAAAAAAE0l64QIodXiNIYV1ghgNDnYm-6dP_g6sOH2kxCmuqqkD')
 
-DURATION = 5 #in minutes
+DURATION = 1 #in minutes - NOTE IT SHOULD BE AT LEAST 2 MINUTES OTHERWISE WILL RUN FOREVER
 DEBUG = True #True to also create a debug file
 
 #hardware id
@@ -70,7 +70,8 @@ def doMeasurement(duration):
 #--------------------------#
 # Execute Data Acquisition #
 #--------------------------#
-while True:
+logging.info("Starting data acquisition")
+while True and DURATION>1:
     try:
         #wait for pi to boot up
         if not DEBUG:

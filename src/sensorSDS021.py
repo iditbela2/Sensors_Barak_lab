@@ -30,9 +30,8 @@ class SDS021Reader:
         """function:
             Read and return a frame with length of 8 from the serial port
         """
-        # dump old measured values not yet read (do I need it?)
-        while self.serial.inWaiting() != 0:
-            [ord(self.serial.read()) for i in range(10)]
+        # dump old measured values not yet read 
+        self.serial.flushInput()
 
         while self.serial.inWaiting() == 0:
             time.sleep(0.01)
@@ -52,6 +51,8 @@ class SDS021Reader:
             NOTE (Idit): filename for debug should be initialized here since you only start reading
             when you get to round minute according to duration!
         """
+        if duration==1:
+            logging.exception("duration must be greater than 1")
         result = np.zeros((duration, no_outputs)) #initialize the result file. 2 suits SDS, 12(?) is for 5003
         # make sure you start measuring in a round minute.
         while(int(datetime.datetime.now().minute)%duration!=0):
