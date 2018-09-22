@@ -28,7 +28,7 @@ class SDS021Reader:
         return isStart
 
     def readValue(self):
-        # dump old measured values not yet read 
+        # dump old measured values not yet read (buffered)
         self.serial.flushInput()
 
         while self.serial.inWaiting() == 0:
@@ -48,11 +48,11 @@ class SDS021Reader:
         if sum(values[0:6])%256 == values[6]:
             pm25 = (values[0] + values[1] * 256) / float(10)
             pm10 = (values[2] + values[3] * 256) / float(10)
+            aqm = [pm25, pm10]
         else:
-            pm25 = 0
-            pm10 = 0
+            aqm = [0,0]
             logging.exception("Error when reading from serial, check-sum failed")
-        return [pm25, pm10]
+        return aqm
 
     def readPM(self, duration, no_outputs):
         """function:
@@ -61,7 +61,7 @@ class SDS021Reader:
         """
         result = np.zeros((duration, no_outputs)) #initialize the result file. 2 suits SDS, 12(?) is for 5003
         # make sure you start measuring in a round minute
-        while datetime.datetime.now().minute%duration!=0 :
+        while datetime.datetime.now().minute%duration != 0:
             time.sleep(1) #in seconds.
         logging.info("started reading PM data")
         for step in range(duration):

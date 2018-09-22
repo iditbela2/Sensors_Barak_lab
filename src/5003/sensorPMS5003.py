@@ -1,13 +1,11 @@
 
+# written in python2
+
 import time
 import serial
 import numpy as np
 import datetime
 import logging
-import os
-import sys
-
-DATA_FRAME_LENGTH = 28
 
 class PMS5003Reader:
 
@@ -21,100 +19,63 @@ class PMS5003Reader:
         #open port
         self.serial = serial.Serial(port=inport,baudrate=9600)
 
+    def checkStart(self):
+        isStart = False
+        head1 = ord(self.serial.read())
+        head2 = ord(self.serial.read())
+        if head1 == 66 and head2 == 77:
+            isStart = True
+        return isStart
+
     def readValue(self):
-        '''function:
-            Read and return a frame with length of 28 from the serial port
-        '''
-        
-        while True:
+        # dump old measured values not yet read (buffered)
+        self.serial.flushInput()
 
-            data = []
-            
-            #two start bytes
-            start1 = self.serial.read()
-            if start1 == b'\x42':
-                start2 = self.serial.read()
-                if start2 == b'\x4d':
-                    
-                    #check if the frame length is correct
-                    frame_high = ord(self.serial.read())
-                    frame_low =  ord(self.serial.read())
-                    frame_length = frame_high*256 + frame_low
-                    if frame_length == DATA_FRAME_LENGTH:
-                        
-                        #data acquisition
-                        for i in range(frame_length):
-                            data.append(ord(self.serial.read()))
+        while self.serial.inWaiting() == 0:
+            time.sleep(0.01)
 
-                        #verify the data with checksum (last two bytes)
-                        checksum_expected = data[len(data)-2]*256 + data[len(data)-1]
-                        checksum_received = 0
-                        for i in range(len(data) - 2):
-                            checksum_received += data[i]
-                        checksum_received += frame_high + frame_low + ord(start1) + ord(start2)
+        # make sure you start after first and second bits
+        while not self.checkStart():
+            try:
+                self.serial.read()
+            except Exception:
+                logging.exception("Error when reading from serial, values not synced")
 
-                        if checksum_expected == checksum_received:
-                            return data
-                        else:
-                            print "checksum error\n"
-                            print "expected: {0}, received: {1} bytes".format(checksum_expected, checksum_received)
-                            return None
+        #read serial input of ASCII characters as an integer
+        values = [ord(self.serial.read()) for i in range(30)]
+        if 66 + 77 + sum(values[0:28]) == values[28]*256 + values[29]:
+            pm1 = (values[2]*256 + values[3])
+            pm25 = (values[4]*256 + values[5])
+            pm10 = (values[6]*256 + values[7])
+            pm1atm = (values[8]*256 + values[9])
+            pm25atm = (values[10]*256 + values[11])
+            pm10atm = (values[12]*256 + values[13])
+            no03 = (values[14]*256 + values[15])
+            no05 = (values[16]*256 + values[17])
+            no1 = (values[18]*256 + values[19])
+            no25 = (values[20]*256 + values[21])
+            no5 = (values[22]*256 + values[23])
+            no10 = (values[24]*256 + values[25])
+            aqm = [pm1, pm25, pm10, pm1atm, pm25atm, pm10atm, no03, no05, no1, no25, no5, no10]
+        else:
+            aqm = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            logging.exception("Error when reading from serial, check-sum failed")
+        return aqm
 
-                    else: 
-                        print "unexpected frame length"
-                        return None
-        
-    def read(self, duration, file_name, debug):
-        
-        '''function:
-            Read the frames for a given duration and return all data
-            results=[[all values in min 1],[min 2]..]
-        '''
-        while(int(str(datetime.datetime.now()).split(":")[1])%duration!=0):
-            time.sleep(1)
-        print "read"#
-        file_name="debug_"+file_name
-
-        #initialization
-        
-        result = [[] for i in range(duration)]
-        for j in range(duration):
-            species = [[] for i in range(12)]
-            while int(str(datetime.datetime.now()).split(":")[1])%duration<j+1 and (j!=duration-1 or int(str(datetime.datetime.now()).split(":")[1])%duration!=0):
+    def readPM(self, duration, no_outputs):
+        result = np.zeros((duration, no_outputs)) #initialize the result file. 2 suits SDS, 12(?) is for 5003
+        # make sure you start measuring in a round minute
+        while datetime.datetime.now().minute%duration != 0:
+            time.sleep(1) #in seconds.
+        logging.info("started reading PM data")
+        for step in range(duration):
+            temp = []
+            start_time = datetime.datetime.now()
+            step_time = datetime.timedelta(hours=0, minutes=1)  # step time. 1 min. of average
+            while datetime.datetime.now() < start_time + step_time:
                 try:
-                    values = self.readValue()
-                    
-                    #convert each data to an integer value
-                    for i in range(len(species)):
-                        species[i].append(values[i*2]*256 + values[i*2 + 1])
-                    time.sleep(1)
-                except KeyboardInterrupt:
-                    print "keyboard interrupt"
-                    sys.exit()
-                except:
-                    e = sys.exc_info()[0]
-                    print ("ERROR: " + str(e))
-    
-            #create debug file
-            if debug:
-                
-                f = open(file_name,"w")
-                for pm in range(len(species)):
-                    for value in species[pm]:
-                        f.write(str(value) + "\n")
-                    f.write("-------------\n")
-                f.close()
-    
-    
-            #average, standard deviation, min and max computing
-            for i in range(len(species)):
-                result[j-1].append(np.average(species[i]))
-            '''
-            result.append(np.std(species[i]))
-            result.append(min(species[i]))
-            result.append(max(species[i]))
-            '''
-            print "finish"+str(j)#
+                    temp.append(self.readValue())  #could values potentialy be empty/zero ?
+                except Exception:
+                    logging.exception("error in reading PM values using readValue()")
+            result[step,:] = np.mean(temp,0) #return mean of 1 minutes readings
         return result
-
-
