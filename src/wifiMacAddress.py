@@ -1,7 +1,6 @@
 import os
 import sys
 import time
-import serial
 import numpy as np
 import datetime
 import logging
@@ -29,7 +28,7 @@ class MacAddressReader:
             Read the mac addresses the same way it reads PM values
             (to start in 0 minute).
         """
-        # make sure you start measuring in a round minute and a round second.
+        # make sure you start measuring in a round minute
         while(datetime.datetime.now().minute%duration!=0):
             time.sleep(1)  # in seconds.
         logging.info("started reading mac addresses")

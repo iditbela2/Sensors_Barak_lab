@@ -1,8 +1,10 @@
 import os
 import logging
+
+# NOTE: IN CASE IT CREATES A FOLDER WITHOUT THE PERMISSIONS NEEDED TO WRITE A FILE, POSSIBLE SOLUTION: sudo chmod -R 777 /home/pi/...
+
 def setFolder(path):
-# NOTE: SOMETIMES IT WILL CREATE A FOLDER AND IT WONT HAVE THE PERMISSIONS NEEDED TO WRITE A FILE. POSSIBLE SOLUTION: sudo chmod -R 777 /home/pi/...
-    
+
     # check if there is a log folder; if not, create a new one       
     datapath = "/home/pi/logs_data/"
     if not os.path.exists(datapath):

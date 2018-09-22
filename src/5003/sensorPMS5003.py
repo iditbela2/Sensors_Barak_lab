@@ -1,18 +1,20 @@
-#---------------------------------#
-# filename: sensorPMS5003.py      #
-# author: Zhiye (Zoey) Song       #
-#---------------------------------#
 
-import os
-import sys
 import time
 import serial
 import numpy as np
 import datetime
+import logging
+import os
+import sys
 
 DATA_FRAME_LENGTH = 28
 
 class PMS5003Reader:
+
+    logging.basicConfig(
+        filename='/home/pi/logs_debug/PMS5003Reader_debug_{}.log'.format(datetime.datetime.now()),
+        level=logging.DEBUG,
+        format='[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s')
 
     def __init__(self, inport):
         

@@ -14,9 +14,9 @@ dbxClt = DropboxClient.DropboxClient('k51crRTDG-AAAAAAAAAAE0l64QIodXiNIYV1ghgNDn
 DURATION = 2
 
 #hardware id
-SELECTED_HARDWARE = 1 #1 for SDS021, 2 for PMS5003, 3 for SDS011
+SELECTED_HARDWARE = 2 #1 for SDS021, 2 for PMS5003, 3 for SDS011
 
-# create folders 
+# create folders
 setFolder('wifi' + str(SELECTED_HARDWARE))
 
 import wifiMacAddress

@@ -84,6 +84,7 @@ def checkInternetConnection():
                 return False
             return True
     return False
+
     
 def uploadToDropbox(file,id):
     f=open('/home/pi/logs/'+str(id)+'/'+file,'r')

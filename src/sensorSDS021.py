@@ -1,8 +1,4 @@
-#---------------------------------#
-# filename: sensorSDS021.py       #
-# author: Zhiye (Zoey) Song       #
-# changes by: Idit Belachsen      #
-#---------------------------------#
+
 # written in python2
 
 import time
@@ -23,42 +19,56 @@ class SDS021Reader:
         #open port
         self.serial = serial.Serial(port=inport,baudrate=9600)
 
-    # NOTE (Idit): understand what happens when inWaiting is 4095 (max). will it keep reading and
-    # replace the old values by the new ones? or will I get old values when I read ?
-    # maybe I need to start by dumping all the "old values"?
+    def checkStart(self):
+        isStart = False
+        head1 = ord(self.serial.read())
+        head2 = ord(self.serial.read())
+        if head1 == 170 and head2 == 192:
+            isStart = True
+        return isStart
+
     def readValue(self):
-        """function:
-            Read and return a frame with length of 8 from the serial port
-        """
         # dump old measured values not yet read 
         self.serial.flushInput()
 
         while self.serial.inWaiting() == 0:
             time.sleep(0.01)
+
+        # make sure you start after first and second bits
+        while not self.checkStart():
+            try:
+                self.serial.read()
+            except Exception:
+                logging.exception("Error when reading from serial, values not synced")
+
         #read serial input of ASCII characters as an integer
-        # MAYBE READLINE INSTEAD?
-        values = [ord(self.serial.read()) for i in range(10)]#total of 10 bit
+        values = [ord(self.serial.read()) for i in range(8)]#total of 10 bit
         # but only focus on 3rd to 6th DATA bits
         # low and high*265 byte / 10... according to documentation
-        pm25 = (values[2] + values[3] * 256) / float(10)
-        pm10 = (values[4] + values[5] * 256) / float(10)
+        if sum(values[0:6])%256 == values[6]:
+            pm25 = (values[0] + values[1] * 256) / float(10)
+            pm10 = (values[2] + values[3] * 256) / float(10)
+        else:
+            pm25 = 0
+            pm10 = 0
+            logging.exception("Error when reading from serial, check-sum failed")
         return [pm25, pm10]
 
     def readPM(self, duration, no_outputs):
         """function:
             Read the frames for a given duration and return PM 2.5 and PM 10 concentrations'
             average, [standard deviation, min, and max] PER MINUTE
-            NOTE (Idit): filename for debug should be initialized here since you only start reading
-            when you get to round minute according to duration!
         """
         result = np.zeros((duration, no_outputs)) #initialize the result file. 2 suits SDS, 12(?) is for 5003
-        # make sure you start measuring in a round minute and a round second.
-        while(datetime.datetime.now().minute%duration!=0):
+        # make sure you start measuring in a round minute
+        while datetime.datetime.now().minute%duration!=0 :
             time.sleep(1) #in seconds.
         logging.info("started reading PM data")
         for step in range(duration):
             temp = []
-            while(datetime.datetime.now().minute%duration==step):
+            start_time = datetime.datetime.now()
+            step_time = datetime.timedelta(hours=0, minutes=1)  # step time. 1 min. of average
+            while datetime.datetime.now() < start_time + step_time:
                 try:
                     temp.append(self.readValue())  #could values potentialy be empty/zero ?
                 except Exception:
