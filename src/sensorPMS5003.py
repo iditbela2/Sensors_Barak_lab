@@ -67,7 +67,7 @@ class PMS5003Reader:
         # make sure you start measuring in a round minute
         while datetime.datetime.now().minute%duration != 0:
             time.sleep(0.1) #in seconds.
-        #logging.info("started reading PM data")
+        logging.info("starting to read PM data")
         for step in range(duration):
             temp = []
             start_time = datetime.datetime.now().replace(microsecond=0,second=0)
