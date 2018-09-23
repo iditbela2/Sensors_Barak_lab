@@ -1,5 +1,4 @@
 import os
-import sys
 import time
 import numpy as np
 import datetime
@@ -32,7 +31,7 @@ class MacAddressReader:
         while(datetime.datetime.now().minute%duration!=0):
             time.sleep(1)  # in seconds.
         logging.info("started reading mac addresses")
-        sys.stdout.flush() # NOT SURE IF NECESSARY
+        self.pr.stdout.flush() # NOT SURE IF NECESSARY
         mac_list = []
         time_list = []
         start_time = datetime.datetime.now()
