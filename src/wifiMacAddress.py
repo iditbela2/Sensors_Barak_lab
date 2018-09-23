@@ -29,13 +29,13 @@ class MacAddressReader:
         """
         # make sure you start measuring in a round minute
         while(datetime.datetime.now().minute%duration!=0):
-            time.sleep(1)  # in seconds.
-        logging.info("started reading mac addresses")
-        self.pr.stdout.flush() # NOT SURE IF NECESSARY
+            time.sleep(0.1)  # in seconds.
         mac_list = []
         time_list = []
-        start_time = datetime.datetime.now()
+        start_time = datetime.datetime.now().replace(microsecond=0,second=0)
         mst_time = datetime.timedelta(hours=0, minutes=duration) #measurement time
+        #logging.info("started reading mac addresses")
+        self.pr.stdout.flush() # NOT SURE IF NECESSARY
         while datetime.datetime.now() < start_time + mst_time:
             try:
                 lines = self.pr.stdout.readline().split()
