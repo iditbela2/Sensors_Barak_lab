@@ -35,7 +35,7 @@ class MacAddressReader:
         start_time = datetime.datetime.now().replace(microsecond=0,second=0)
         mst_time = datetime.timedelta(hours=0, minutes=duration) #measurement time
         logging.info("starting to read mac addresses")
-        self.pr.stdout.flush() # NOT SURE IF NECESSARY
+        self.pr.stdout.flush()  # NOT SURE IF NECESSARY
         while datetime.datetime.now() < start_time + mst_time:
             try:
                 lines = self.pr.stdout.readline().split()
