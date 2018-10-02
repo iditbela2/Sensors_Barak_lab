@@ -1,6 +1,6 @@
 
 # written in python3
-# im miss ismember, accumarray, cellfunc :)
+# I miss ismember, accumarray, cellfunc :)
 
 import datetime
 import os
@@ -13,6 +13,7 @@ import matplotlib.dates as md
 import operator
 from functools import reduce
 from pathlib import Path
+import csv
 
 def is_folder_exists(folder):
     return os.path.isdir(folder)
@@ -120,20 +121,50 @@ def getSignalPerMacAddress(path, sensor, start, end, macAdd):
     result = np.transpose(np.array([times[find],macs[find],np.ones(np.shape(times[find]))*int(sensor)]))
     return result
 
+
+def exportToCSV(start, end, fmt, times, data, sensor_no):
+    # write data to csv file
+    filename = "s_" + str(sensor_no) + "_from_" + start.strftime(fmt) + "_to_" + end.strftime(fmt) + ".csv"
+
+    with open(filename, 'a') as csvFile:
+        writer = csv.writer(csvFile)
+        if sensor_no is 1:
+            writer.writerow(['time', 'PM 2.5', 'PM 10'])
+            for t, d in zip(times, data):
+                row = [t.strftime(fmt), str(d[0]), str(d[1])]
+                writer.writerow(row)
+        if sensor_no is 2:
+            writer.writerow(['time', 'pm1', 'pm2.5', 'pm10', 'pm1atm', 'pm2.5atm', 'pm10atm', 'no03', 'no05', 'no1', 'no25', 'no5', 'no10'])
+            for t, d in zip(times, data):
+                row = [t.strftime(fmt)] + [str(d[i]) for i in range(np.shape(d)[0])]
+                writer.writerow(row)
+    csvFile.close()
+
 #------ plot some results ------
 
-# Make sure data was manually downloaded
-sensor_no = 1
-start_date = datetime.datetime(2018,8,1,0,0,0)
-end_date = datetime.datetime(2018,8,2,0,0,0)
-duration = 5 # measurement duration. maybe I don't need
-dataPath = '/Users/iditbela/Documents/Sensors_downloaded_data/'
+# Make sure data was manually downloaded/take from dropbox folder
+start_date = datetime.datetime(2018,9,25,0,0,0)
+end_date = datetime.datetime(2018,10,2,10,0,0)
+duration = 10 # measurement duration. maybe I don't need
+dataPath = '/Users/iditbela/Dropbox/'
 
-# extract data to plot a simple signal
-times, data = getSignalData(dataPath, 1, start_date, end_date)
+# extract data1 to plot a simple signal
+sensor_no = 1
+times, data = getSignalData(dataPath, sensor_no, start_date, end_date)
+
+# export data1 to CSV
+fmt = "%Y-%m-%d %H:%M:%S"
+exportToCSV(start_date, end_date, fmt, times, data, sensor_no)
+
+# extract data2 to csv
+sensor_no = 2
+times2, data2 = getSignalData(dataPath, sensor_no, start_date, end_date)
+
+# export data2 to csv
+exportToCSV(start_date, end_date, fmt, times2, data2, sensor_no)
+
 
 # plot signal
-fmt = "%Y-%m-%d %H:%M:%S"
 fig, ax = plt.subplots()
 ax.plot(times, data[:,0])
 ax.plot(times,data[:,1])
