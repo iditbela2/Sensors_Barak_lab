@@ -14,12 +14,13 @@ import csv
 # import matplotlib.pyplot as plt
 # import matplotlib.dates as md
 
-
 '''
 getTimes finds the log files that match the chosen dates and returns an array of 
 log times chosen (times_chosen = datetime, times_log=strings of that time). It acts
 differently for data logs and wifi logs
 '''
+
+
 def getTimes(path, sensor, start, end, log): # log=data for PM data or log=wifi for macAdress data
     fmt = "%Y-%m-%d %H:%M:%S"
     if log=='data':
@@ -54,6 +55,8 @@ getSignalData returns an array of times of measurement (every minute)
 and array of the data averaged (during the measurement) per this minute. 
 The time of the log-file is the END of measurement that took X minutes duration. 
 '''
+
+
 def getSignalData(path, sensor, start, end, duration, output_no):
     times_chosen, times_log = getTimes(path,sensor,start,end,log = 'data')
     # create an array of measurement times
@@ -81,43 +84,36 @@ getMacAddresses returns a matrix of times and mac addresses per certain sensor.
 A unique mac address is saved every X duration. Once received, it is saved with a timestamp.
 In case it is received again during the same measurement duration, it is not saved again.
 
-CHANGE THE FUNCTION
-
 '''
-def getMacAddresses(path, sensor, start, end):
-    times_chosen, times_log = getTimes(path,sensor,start,end,log='wifi')
-    # extract all mac addresses from chosen logs
-    all_mac_data = []
-    for ind in range(len(times_log)):
-        with open(path+'wifi'+str(sensor)+'/'+times_log[ind]) as f:
-            fdata = f.read().splitlines()
-            all_mac_data.append(fdata[:-1]) # remove the "---END OF..."
-    # create an array of times in the size of time_size X all_mac_data[i]
-    times_size = np.shape(all_mac_data)[0] #size according to number of logs
-    len_mac = [] #array of len of mac addresses in each log
-    for d in all_mac_data:
-        len_mac.append(len(d))
-    # create an array of measurement times minus 5 minutes.
-    # that way the time represents the beginning
-    # of the measurement and not the end
-    times = [] #HOW DO I DO IT NOT IN A LOOP?
-    for i in range(times_size):
-        for j in range(len_mac[i]):
-            times.append(times_chosen[i] - datetime.timedelta(hours=0, minutes=5))
-    # create an array of data the same size
-    data = np.array(reduce(operator.concat, all_mac_data))
-    # return an array of times and an array of data measurements
-    return np.array(times), data
 
+
+def getMacAddresses(path, sensor, start, end):
+    _, times_log = getTimes(path,sensor,start,end,log='wifi')
+    fmt = "%Y-%m-%d %H:%M:%S"
+    # extract all data from chosen logs
+    all_mac_data = []
+    for i in range(len(times_log)):
+        filename = path + 'wifi' + str(sensor) + '/' + times_log[i]
+        with open(filename, 'r') as f:
+            lines = f.read().splitlines()
+            lines.remove("--END OF MAC ADDRESSES--")
+            lines.remove("--END OF TIMESTEMPS--")
+            data = np.transpose(np.array_split(lines, 2))
+        f.close()
+        all_mac_data.append(data)
+    # change the times from strings to datetime
+    times_str = np.concatenate(all_mac_data, axis=0)[:,1]
+    times = [datetime.datetime.strptime(times_str[x], fmt) for x in range(len(times_str))]
+    # return all_mac data
+    return np.array(times), np.concatenate(all_mac_data, axis=0)[:,0]
 
 '''
 getSignalPerMacAddress finds all times a specific mac address was measured in
-a certain sensor. Then, it gets the signal for those times, averaged per measurement
-duration (currently 10 minutes).
-
-CHANGE THE FUNCTION
+a certain sensor between a certain time intervals. 
 
 '''
+
+
 def getSignalPerMacAddress(path, sensor, start, end, macAdd):
     # call getMacAddresses
     times, macs = getMacAddresses(path, sensor, start, end)
