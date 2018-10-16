@@ -94,7 +94,7 @@ plt.rcParams['font.size'] = 20
 # SENSOR-1-SDS021
 sensor_no = 1
 start_date = datetime.datetime(2018, 9, 26, 0, 0, 0)
-end_date = datetime.datetime(2018, 10, 2, 10, 0, 0)
+end_date = datetime.datetime(2018, 10, 2, 0, 0, 0)
 duration = 10 # measurement duration
 output_no = 2
 dataPath = '/Users/iditbela/Dropbox/'

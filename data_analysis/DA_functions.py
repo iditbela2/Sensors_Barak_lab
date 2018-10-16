@@ -38,7 +38,7 @@ def getTimes(path, sensor, start, end, log): # log=data for PM data or log=wifi 
         logPath = path+'wifi'+str(sensor)
         file_names = np.array(os.listdir(logPath))
         # extract times from file names
-        times_str = np.array([ind[5:] for ind in file_names])
+        times_str = np.array([ind[5:] for ind in file_names if 'wifi' in ind])
         # convert to datetime
         times_datetime = np.array([datetime.datetime.strptime(times_str[x], fmt) for x in range(len(times_str))])
         # choose the times between start and end
@@ -109,19 +109,28 @@ def getMacAddresses(path, sensor, start, end):
 
 '''
 getSignalPerMacAddress finds all times a specific mac address was measured in
-a certain sensor between a certain time intervals. 
+a certain sensor between a certain time interval. 
 
+CHANGE THIS FUNCTION TO RETURN THE MEASURED PM DATA
+ROUND TO MINUTES, AND TAKE VALUE PER THAT MINUTE. 
+INTERPOLATION IS POSSIBLE LATER
 '''
 
 
-def getSignalPerMacAddress(path, sensor, start, end, macAdd):
+def getSignalPerMacAddress(path, sensor, start, end, macAdd, output_no, duration):
+    fmt = "%Y-%m-%d %H:%M:%S"
     # call getMacAddresses
     times, macs = getMacAddresses(path, sensor, start, end)
     # take only data per specific mac address
-    find = np.where(macs == macAdd)
-    result = np.transpose(np.array([times[find],macs[find],np.ones(np.shape(times[find]))*int(sensor)]))
+    find = np.where(macs == macAdd.lower())
+    mac_data_time_round = np.array([times[find][i].replace(microsecond=0, second=0) for i in range(len(times[find]))])
+    # get the data of these times
+    pm_data_time, pm_data = getSignalData(path, sensor, start, end, duration, output_no)
+    # find the indexes in pm_data_time that match mac_time_data_round (assuming both arrays are sorted)
+    ind = np.searchsorted(pm_data_time,mac_data_time_round)
+    # return n
+    result = np.column_stack((mac_data_time_round, macs[find], np.ones(np.shape(times[find])) * int(sensor), pm_data[ind,:]))
     return result
-
 
 '''
 exportToCSV writes extracted data to csv file according to the sensor type
