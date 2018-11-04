@@ -11,7 +11,7 @@ from directoryUtils import setWorkingDirectory, setFolder
 dbxClt = DropboxClient.DropboxClient('k51crRTDG-AAAAAAAAAAE0l64QIodXiNIYV1ghgNDnYm-6dP_g6sOH2kxCmuqqkD')
 
 # set duration = after how many minutes data is written to a log file and uploaded to dropbox
-DURATION = 10  # in minutes
+DURATION = 5  # in minutes
 
 # hardware id
 SELECTED_HARDWARE = 2  # 1 for SDS021, 2 for PMS5003, 3 for SDS011
@@ -62,8 +62,7 @@ def doMeasurement(duration):
 
     # (in case results returned zero values, means something was not measured/was not appended to results)
     # write results to log file
-    file_name = "/home/pi/logs_data/" + str(SELECTED_HARDWARE) + "/" + "log_" + str(datetime.datetime.now()).split(".")[
-        0]
+    file_name = "/home/pi/logs_data/" + str(SELECTED_HARDWARE) + "/" + "log_" + str(datetime.datetime.now()).split(".")[0]
     with open(file_name, "w") as f:
         for i in range(len(results[0])):  # index for pm#
             for j in range(len(results)):  # index for min#

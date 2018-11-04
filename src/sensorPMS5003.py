@@ -58,24 +58,43 @@ class PMS5003Reader:
             no10 = (values[24]*256 + values[25])
             aqm = [pm1, pm25, pm10, pm1atm, pm25atm, pm10atm, no03, no05, no1, no25, no5, no10]
         else:
-            aqm = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            aqm = np.empty((1, 12))
+            aqm.fill(np.nan)
             logging.exception("Error when reading from serial, check-sum failed")
         return aqm
 
+    # def readPM(self, duration, no_outputs):
+    #     result = np.zeros((duration, no_outputs)) #initialize the result file. 2 suits SDS, 12(?) is for 5003
+    #     # make sure you start measuring in a round minute
+    #     while datetime.datetime.now().minute%duration != 0:
+    #         time.sleep(0.1) #in seconds.
+    #     logging.info("starting to read PM data")
+    #     for step in range(duration):
+    #         temp = []
+    #         start_time = datetime.datetime.now().replace(microsecond=0,second=0)
+    #         step_time = datetime.timedelta(hours=0, minutes=1)  # step time. 1 min. of average
+    #         while datetime.datetime.now() < start_time + step_time:
+    #             try:
+    #                 temp.append(self.readValue())  #could values potentialy be empty/zero ?
+    #             except Exception:
+    #                 logging.exception("error in reading PM values using readValue()")
+    #         result[step,:] = np.mean(temp,0) #return mean of 1 minutes readings
+    #     return result
+
+# read ALL values
     def readPM(self, duration, no_outputs):
-        result = np.zeros((duration, no_outputs)) #initialize the result file. 2 suits SDS, 12(?) is for 5003
+        # result = np.empty((10000, no_outputs)) #initialize the result file. 2 suits SDS, 12(?) is for 5003
         # make sure you start measuring in a round minute
         while datetime.datetime.now().minute%duration != 0:
             time.sleep(0.1) #in seconds.
         logging.info("starting to read PM data")
-        for step in range(duration):
-            temp = []
-            start_time = datetime.datetime.now().replace(microsecond=0,second=0)
-            step_time = datetime.timedelta(hours=0, minutes=1)  # step time. 1 min. of average
-            while datetime.datetime.now() < start_time + step_time:
-                try:
-                    temp.append(self.readValue())  #could values potentialy be empty/zero ?
-                except Exception:
-                    logging.exception("error in reading PM values using readValue()")
-            result[step,:] = np.mean(temp,0) #return mean of 1 minutes readings
+        temp = []
+        start_time = datetime.datetime.now().replace(microsecond=0,second=0)
+        step_time = datetime.timedelta(hours=0, minutes=duration)  # step time. 1 second.
+        while datetime.datetime.now() < start_time + step_time:
+            try:
+                temp.append(self.readValue())  #could values potentialy be empty/zero ?
+            except Exception:
+                logging.exception("error in reading PM values using readValue()")
+        result = np.asarray(temp)
         return result
