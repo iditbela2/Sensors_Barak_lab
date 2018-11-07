@@ -26,6 +26,13 @@ def getTimes(path, sensor, start, end, log): # log=data for PM data or log=wifi 
     if log=='data':
         logPath = path+str(sensor)
         file_names = np.array(os.listdir(logPath))
+
+        ind = []
+        for i, file in enumerate(file_names):
+            if len(file) != 23:
+                ind.append(i)
+        file_names = np.delete(file_names, ind)
+
         # extract times from file names
         times_str = np.array([ind[4:] for ind in file_names])
         # convert to datetime
@@ -37,6 +44,13 @@ def getTimes(path, sensor, start, end, log): # log=data for PM data or log=wifi 
     elif log=='wifi':
         logPath = path+'wifi'+str(sensor)
         file_names = np.array(os.listdir(logPath))
+
+        ind = []
+        for i, file in enumerate(file_names):
+            if len(file) != 24:
+                ind.append(i)
+        file_names = np.delete(file_names, ind)
+
         # extract times from file names
         times_str = np.array([ind[5:] for ind in file_names if 'wifi' in ind])
         # convert to datetime
