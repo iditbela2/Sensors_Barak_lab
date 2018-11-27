@@ -11,7 +11,7 @@ from directoryUtils import setWorkingDirectory, setFolder
 dbxClt = DropboxClient.DropboxClient('k51crRTDG-AAAAAAAAAAE0l64QIodXiNIYV1ghgNDnYm-6dP_g6sOH2kxCmuqqkD')
 
 # set duration = after how many minutes data is written to a log file and uploaded to dropbox
-DURATION = 5  # in minutes
+DURATION = 10  # in minutes
 
 # hardware id
 SELECTED_HARDWARE = 2  # 1 for SDS021, 2 for PMS5003, 3 for SDS011
