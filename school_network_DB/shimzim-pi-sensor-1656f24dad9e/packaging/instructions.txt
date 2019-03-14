@@ -1,0 +1,17 @@
+- put all sources in /opt/pi-sensor
+- put service file in /usr/lib/systemd/system/
+- put config file in /etc/pi-sensor
+- add to /etc/logrotate.conf
+/var/log/pi-sensor/pi-sensor.log
+{
+        rotate 10
+        daily 
+        missingok
+        notifempty
+        compress
+        delaycompress
+}
+
+- using the pi config (don't remember exactly), set SSH to be enabled on boot, and update the password (see file in this folder)
+- pip install pqueue
+- systemctl enable pi-sensor

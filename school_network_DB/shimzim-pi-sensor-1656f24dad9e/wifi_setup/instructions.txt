@@ -1,0 +1,67 @@
+sudo apt-get install hostapd
+sudo apt-get install dnsmasq
+sudo systemctl disable hostapd
+sudo systemctl disable dnsmasq
+* add /etc/hostapd/hostapd.conf with the following content:
+#2.4GHz setup wifi 80211 b,g,n
+interface=wlan0
+driver=nl80211
+ssid=SensingTheAir
+hw_mode=g
+channel=8
+wmm_enabled=0
+macaddr_acl=0
+#auth_algs=1
+ignore_broadcast_ssid=0
+#wpa=2
+#wpa_passphrase=1234567890
+#wpa_key_mgmt=WPA-PSK
+#wpa_pairwise=CCMP TKIP
+#rsn_pairwise=CCMP
+
+#80211n - Change GB to your WiFi country code
+country_code=IL
+ieee80211n=1
+ieee80211d=1
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+* edit  /etc/default/hostapd, add: DAEMON_CONF="/etc/hostapd/hostapd.conf"
+
+* edit /etc/dnsmasq.conf - add to the bottom:
+#AutoHotspot Config
+#stop DNSmasq from using resolv.conf
+no-resolv
+#Interface to use
+interface=wlan0
+bind-interfaces
+dhcp-range=10.0.0.50,10.0.0.150,12h
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+* edit /etc/dhcpcd.conf : add to the bottom: /etc/network/interfaces
+
+* create this file:  /etc/systemd/system/autohotspot.service  with:
+[Unit]
+Description=Automatically generates an internet Hotspot when a valid ssid is not in range
+After=multi-user.target
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/autohotspot
+[Install]
+WantedBy=multi-user.target
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+sudo systemctl enable autohotspot.service
+
+* create this file: /usr/bin/autohotspot  with the content from autohotspot in this directory (TODO: need to update the location of webserver.py to /opt/ something)
+
+sudo chmod +x /usr/bin/autohotspot
+
+add the following to the end of etc/hosts: 10.0.0.5       configure.me
+
+
+
+

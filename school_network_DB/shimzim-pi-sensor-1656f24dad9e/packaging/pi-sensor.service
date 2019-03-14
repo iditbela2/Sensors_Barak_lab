@@ -1,0 +1,15 @@
+[Unit]
+Description=Air quality measurement service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/pi
+ExecStart=/opt/pi-sensor/main.py /etc/pi-sensor/pi-sensor.cfg
+Restart=always
+StandardOutput=inherit
+StandardError=inherit
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,10 @@
+TODO - currently webserver.py and the relevant files are in /home/pi. need to move them to /opt somewhere
+
+
+before packaging an image:
+1. erase our wifi password in 
+2. set sensor id to NO_ID in /etc/pi-sensor/pi-sensor.cfg
+3. erase logs and pqueue files:
+sudo rm /var/log/pi-sensor
+sudo su -
+rm -rf pisensor*
